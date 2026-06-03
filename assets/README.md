@@ -6,6 +6,12 @@
 zhangjiajie-intro.mp4
 ```
 
+把视频第一帧或首页海报图放在这里，并命名为：
+
+```text
+zhangjiajie-intro-poster.png
+```
+
 建议准备三套视频，网站会自动按设备选择：
 
 ```text
