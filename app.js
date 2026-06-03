@@ -726,6 +726,7 @@ function bindIntroSplash() {
     if (!watchButton) return;
     watchButton.textContent = tr("playIntro");
     watchButton.classList.add("ready");
+    video.controls = true;
   };
 
   const attemptPlay = () => {
@@ -736,21 +737,7 @@ function bindIntroSplash() {
   };
 
   if (introConfig.poster) video.poster = introConfig.poster;
-  if (introConfig.src) {
-    const connection = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
-    const preferMobileVideo = window.matchMedia("(max-width: 768px)").matches ||
-      Boolean(connection?.saveData) ||
-      ["slow-2g", "2g", "3g"].includes(connection?.effectiveType);
-    const sources = preferMobileVideo
-      ? [introConfig.mobileSrc, "assets/zhangjiajie-intro-mobile.mp4", introConfig.src, "assets/zhangjiajie-intro.mp4", "assets/zhangjiajie-intro.mp4.mp4"]
-      : [introConfig.src, "assets/zhangjiajie-intro.mp4", introConfig.mobileSrc, "assets/zhangjiajie-intro-mobile.mp4", "assets/zhangjiajie-intro.mp4.mp4"];
-    video.innerHTML = Array.from(new Set(sources))
-      .filter(Boolean)
-      .map((src) => `<source src="${src}" type="video/mp4">`)
-      .join("");
-    video.load();
-    attemptPlay();
-  }
+  loadIntroVideoSource(video, introConfig).then(attemptPlay).catch(markNeedsTap);
 
   const hideSplash = () => {
     splash.classList.add("hidden");
@@ -771,6 +758,42 @@ function bindIntroSplash() {
   window.setTimeout(() => {
     if (!splash.classList.contains("hidden")) hideSplash();
   }, maxDuration * 1000);
+}
+
+async function loadIntroVideoSource(video, introConfig) {
+  const connection = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+  const preferMobileVideo = window.matchMedia("(max-width: 768px)").matches ||
+    Boolean(connection?.saveData) ||
+    ["slow-2g", "2g", "3g"].includes(connection?.effectiveType);
+  const desktopSrc = introConfig.src || "assets/zhangjiajie-intro.mp4";
+  const mobileSrc = introConfig.mobileSrc || "assets/zhangjiajie-intro-mobile.mp4";
+  const candidates = preferMobileVideo
+    ? [mobileSrc, desktopSrc, "assets/zhangjiajie-intro.mp4.mp4"]
+    : [desktopSrc, mobileSrc, "assets/zhangjiajie-intro.mp4.mp4"];
+
+  for (const src of Array.from(new Set(candidates.filter(Boolean)))) {
+    if (await videoAssetExists(src)) {
+      video.src = src;
+      video.load();
+      return src;
+    }
+  }
+
+  video.src = desktopSrc;
+  video.load();
+  return desktopSrc;
+}
+
+async function videoAssetExists(src) {
+  try {
+    const response = await fetch(src, {
+      method: "HEAD",
+      cache: "no-store"
+    });
+    return response.ok;
+  } catch (error) {
+    return true;
+  }
 }
 
 function bindTravelerVideoForm() {
