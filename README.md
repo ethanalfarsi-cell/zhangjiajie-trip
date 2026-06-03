@@ -54,7 +54,7 @@ C:\Users\Administrator\Documents\AI短剧\index.html
 
 - `index.html` 的联系区域可以加入微信二维码图片。
 - 把首页开场视频放到 `assets/zhangjiajie-intro.mp4`。
-- 手机端建议额外放一个轻量版视频：`assets/zhangjiajie-intro-mobile.mp4`。手机会优先加载这个文件，速度会明显更快。
+- 建议准备三套首页视频：`assets/zhangjiajie-intro-desktop.mp4`、`assets/zhangjiajie-intro-mobile-portrait.mp4`、`assets/zhangjiajie-intro-mobile-landscape.mp4`。网站会根据电脑/手机和横屏/竖屏自动选择。
 
 ## 游客视频审核
 
@@ -91,7 +91,10 @@ PWA 安装和 Service Worker 同步需要 HTTPS 环境。也就是说：
 
 如果手机直链能播放但速度慢，说明路径没问题，主要是视频太大、码率太高或海外节点加载慢。建议：
 
-- 桌面版：`zhangjiajie-intro.mp4` 控制在 15-20MB。
-- 手机版：`zhangjiajie-intro-mobile.mp4` 控制在 6-10MB。
+- 电脑横屏版：`zhangjiajie-intro-desktop.mp4`，1920x1080，12-20MB。
+- 手机竖屏版：`zhangjiajie-intro-mobile-portrait.mp4`，720x1280 或 1080x1920，6-10MB。
+- 手机横屏版：`zhangjiajie-intro-mobile-landscape.mp4`，1280x720，6-10MB。
 - 视频时长控制在 12-18 秒。
 - 导出时开启 H.264/AAC 和 faststart。
+
+浏览器通常不允许打开网页时自动播放带声音的视频，所以首页会自动播放静音画面，并提供“开启声音”按钮。

@@ -8,6 +8,9 @@ window.ZJ_APP_CONFIG = {
   },
   introVideo: {
     src: "assets/zhangjiajie-intro.mp4",
+    desktopLandscapeSrc: "assets/zhangjiajie-intro-desktop.mp4",
+    mobilePortraitSrc: "assets/zhangjiajie-intro-mobile-portrait.mp4",
+    mobileLandscapeSrc: "assets/zhangjiajie-intro-mobile-landscape.mp4",
     mobileSrc: "assets/zhangjiajie-intro-mobile.mp4",
     poster: "",
     durationSeconds: 45

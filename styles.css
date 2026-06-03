@@ -57,6 +57,17 @@ textarea {
   pointer-events: none;
 }
 
+.intro-splash.playing .intro-overlay {
+  background: linear-gradient(180deg, rgba(8, 16, 14, 0.08), rgba(8, 16, 14, 0.34));
+}
+
+.intro-splash.playing .intro-overlay h1,
+.intro-splash.playing .intro-overlay p:not(.eyebrow):not(.intro-status),
+.intro-splash.playing .intro-overlay .eyebrow {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .intro-video,
 .intro-fallback {
   position: absolute;
@@ -138,6 +149,24 @@ textarea {
   background: white;
   border-color: white;
   color: var(--ink);
+}
+
+.intro-actions .sound-btn.ready {
+  background: #f0c76d;
+  border-color: #f0c76d;
+  color: #182321;
+}
+
+.intro-status {
+  min-height: 22px;
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.intro-splash.playing .intro-status {
+  opacity: 0;
 }
 
 .topbar {

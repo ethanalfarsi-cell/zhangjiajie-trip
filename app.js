@@ -51,6 +51,12 @@ const t = {
     skipIntro: "跳过视频",
     watchIntro: "继续欣赏",
     playIntro: "播放视频",
+    unmuteIntro: "开启声音",
+    muteIntro: "关闭声音",
+    videoLoading: "视频正在加载，请稍候...",
+    videoReady: "视频已准备好，点击播放。",
+    videoPlaying: "正在播放。",
+    videoError: "视频加载失败，请检查视频文件是否已上传到 assets 文件夹。",
     uploadEyebrow: "TRAVELER VIDEOS",
     uploadTitle: "上传你的张家界旅行视频",
     uploadText: "游客可以提交自己的张家界旅行视频。所有视频需要后台审核通过后，才会展示到网站和 App。",
@@ -105,6 +111,12 @@ const t = {
     skipIntro: "Skip video",
     watchIntro: "Keep watching",
     playIntro: "Play video",
+    unmuteIntro: "Sound on",
+    muteIntro: "Sound off",
+    videoLoading: "Loading video, please wait...",
+    videoReady: "Video is ready. Tap to play.",
+    videoPlaying: "Playing.",
+    videoError: "Video failed to load. Please check that the file is uploaded to the assets folder.",
     uploadEyebrow: "TRAVELER VIDEOS",
     uploadTitle: "Upload your Zhangjiajie travel video",
     uploadText: "Travelers can submit Zhangjiajie videos. Every video must be approved in the admin backend before it appears on the website and app.",
@@ -159,6 +171,12 @@ const t = {
     skipIntro: "영상 건너뛰기",
     watchIntro: "계속 감상",
     playIntro: "영상 재생",
+    unmuteIntro: "소리 켜기",
+    muteIntro: "소리 끄기",
+    videoLoading: "영상을 불러오는 중입니다...",
+    videoReady: "영상이 준비되었습니다. 탭하여 재생하세요.",
+    videoPlaying: "재생 중입니다.",
+    videoError: "영상 로딩에 실패했습니다. assets 폴더에 업로드되었는지 확인하세요.",
     uploadEyebrow: "TRAVELER VIDEOS",
     uploadTitle: "장자제 여행 영상을 업로드하세요",
     uploadText: "여행자는 장자제 여행 영상을 제출할 수 있습니다. 모든 영상은 관리자 심사 후 웹사이트와 앱에 표시됩니다.",
@@ -712,6 +730,8 @@ function bindIntroSplash() {
   const video = document.querySelector("#introVideo");
   const skipButton = document.querySelector("#skipIntroBtn");
   const watchButton = document.querySelector("#watchIntroBtn");
+  const unmuteButton = document.querySelector("#unmuteIntroBtn");
+  const status = document.querySelector("#introVideoStatus");
   if (!splash || !video) return;
 
   const introConfig = appConfig.introVideo || {};
@@ -726,14 +746,31 @@ function bindIntroSplash() {
     if (!watchButton) return;
     watchButton.textContent = tr("playIntro");
     watchButton.classList.add("ready");
-    video.controls = true;
+    video.controls = false;
+    if (status) status.textContent = tr("videoReady");
   };
 
   const attemptPlay = () => {
     video.muted = true;
-    return video.play().catch(() => {
+    if (status) status.textContent = tr("videoLoading");
+    return video.play().then(() => {
+      splash.classList.add("playing");
+      if (status) status.textContent = tr("videoPlaying");
+    }).catch(() => {
+      splash.classList.remove("playing");
       markNeedsTap();
     });
+  };
+
+  const toggleSound = () => {
+    video.muted = !video.muted;
+    video.defaultMuted = video.muted;
+    if (unmuteButton) {
+      unmuteButton.textContent = video.muted ? tr("unmuteIntro") : tr("muteIntro");
+      unmuteButton.classList.toggle("ready", !video.muted);
+    }
+    if (!video.paused) return;
+    video.play().catch(() => {});
   };
 
   if (introConfig.poster) video.poster = introConfig.poster;
@@ -748,10 +785,18 @@ function bindIntroSplash() {
   watchButton?.addEventListener("click", () => {
     attemptPlay();
   });
+  unmuteButton?.addEventListener("click", toggleSound);
   splash.addEventListener("touchstart", attemptPlay, { once: true, passive: true });
   splash.addEventListener("pointerdown", attemptPlay, { once: true });
   video.addEventListener("canplay", attemptPlay, { once: true });
-  video.addEventListener("error", markNeedsTap);
+  video.addEventListener("loadeddata", () => {
+    if (status) status.textContent = tr("videoReady");
+  });
+  video.addEventListener("error", () => {
+    splash.classList.remove("playing");
+    if (status) status.textContent = tr("videoError");
+    markNeedsTap();
+  });
   video.addEventListener("ended", hideSplash);
 
   const maxDuration = Math.max(8, Number(introConfig.durationSeconds || 18));
@@ -762,14 +807,24 @@ function bindIntroSplash() {
 
 async function loadIntroVideoSource(video, introConfig) {
   const connection = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
-  const preferMobileVideo = window.matchMedia("(max-width: 768px)").matches ||
+  const isMobileWidth = window.matchMedia("(max-width: 768px)").matches;
+  const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+  const isPortrait = window.matchMedia("(orientation: portrait)").matches;
+  const preferMobileVideo = isMobileWidth ||
     Boolean(connection?.saveData) ||
     ["slow-2g", "2g", "3g"].includes(connection?.effectiveType);
   const desktopSrc = introConfig.src || "assets/zhangjiajie-intro.mp4";
-  const mobileSrc = introConfig.mobileSrc || "assets/zhangjiajie-intro-mobile.mp4";
-  const candidates = preferMobileVideo
-    ? [mobileSrc, desktopSrc, "assets/zhangjiajie-intro.mp4.mp4"]
-    : [desktopSrc, mobileSrc, "assets/zhangjiajie-intro.mp4.mp4"];
+  const desktopLandscapeSrc = introConfig.desktopLandscapeSrc || "";
+  const mobileSrc = introConfig.mobileSrc || "";
+  const mobilePortraitSrc = introConfig.mobilePortraitSrc || "";
+  const mobileLandscapeSrc = introConfig.mobileLandscapeSrc || "";
+  const candidates = isDesktop
+    ? [desktopLandscapeSrc, desktopSrc, mobileLandscapeSrc, mobileSrc, "assets/zhangjiajie-intro.mp4.mp4"]
+    : preferMobileVideo && isPortrait
+      ? [mobilePortraitSrc, mobileSrc, desktopSrc, "assets/zhangjiajie-intro.mp4.mp4"]
+      : preferMobileVideo
+        ? [mobileLandscapeSrc, mobileSrc, desktopSrc, "assets/zhangjiajie-intro.mp4.mp4"]
+        : [desktopLandscapeSrc, desktopSrc, mobileLandscapeSrc, mobileSrc, "assets/zhangjiajie-intro.mp4.mp4"];
 
   for (const src of Array.from(new Set(candidates.filter(Boolean)))) {
     if (await videoAssetExists(src)) {
