@@ -1,4 +1,4 @@
-const CACHE_NAME = "zj-trip-map-2026-06-03";
+const CACHE_NAME = "zj-trip-map-2026-06-03-mobile-video-v2";
 const APP_SHELL = [
   "./",
   "./index.html",

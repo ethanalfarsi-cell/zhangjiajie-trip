@@ -54,6 +54,7 @@ C:\Users\Administrator\Documents\AI短剧\index.html
 
 - `index.html` 的联系区域可以加入微信二维码图片。
 - 把首页开场视频放到 `assets/zhangjiajie-intro.mp4`。
+- 手机端建议额外放一个轻量版视频：`assets/zhangjiajie-intro-mobile.mp4`。手机会优先加载这个文件，速度会明显更快。
 
 ## 游客视频审核
 
@@ -77,3 +78,20 @@ PWA 安装和 Service Worker 同步需要 HTTPS 环境。也就是说：
 - 放到正式网站并启用 HTTPS 后，才会出现浏览器安装 App 的能力。
 - IP 语言识别依赖在线接口，正式部署到 HTTPS 后体验更稳定；如果识别失败，默认显示英语。
 - 更新 `site-config.js`、`app.js` 或 `styles.css` 后，重新发布到网站，用户再次打开 App 会同步更新。
+
+## 手机视频不更新时
+
+如果电脑能播放，手机不播放，先按这个顺序检查：
+
+1. 直接在手机浏览器打开 `https://你的域名/assets/zhangjiajie-intro.mp4`，确认视频本身能播放。
+2. 不要先用桌面图标打开 PWA，先用 Safari/Chrome 打开网站测试。
+3. 如果手机之前安装过 App，删除桌面图标后重新添加到主屏幕。
+4. 手机浏览器清理该网站缓存，或换一个无痕窗口测试。
+5. 视频建议使用 MP4 / H.264 / AAC，控制在 10-20MB。
+
+如果手机直链能播放但速度慢，说明路径没问题，主要是视频太大、码率太高或海外节点加载慢。建议：
+
+- 桌面版：`zhangjiajie-intro.mp4` 控制在 15-20MB。
+- 手机版：`zhangjiajie-intro-mobile.mp4` 控制在 6-10MB。
+- 视频时长控制在 12-18 秒。
+- 导出时开启 H.264/AAC 和 faststart。

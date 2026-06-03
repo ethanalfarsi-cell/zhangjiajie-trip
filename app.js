@@ -737,8 +737,15 @@ function bindIntroSplash() {
 
   if (introConfig.poster) video.poster = introConfig.poster;
   if (introConfig.src) {
-    const sources = [introConfig.src, "assets/zhangjiajie-intro.mp4", "assets/zhangjiajie-intro.mp4.mp4"];
+    const connection = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+    const preferMobileVideo = window.matchMedia("(max-width: 768px)").matches ||
+      Boolean(connection?.saveData) ||
+      ["slow-2g", "2g", "3g"].includes(connection?.effectiveType);
+    const sources = preferMobileVideo
+      ? [introConfig.mobileSrc, "assets/zhangjiajie-intro-mobile.mp4", introConfig.src, "assets/zhangjiajie-intro.mp4", "assets/zhangjiajie-intro.mp4.mp4"]
+      : [introConfig.src, "assets/zhangjiajie-intro.mp4", introConfig.mobileSrc, "assets/zhangjiajie-intro-mobile.mp4", "assets/zhangjiajie-intro.mp4.mp4"];
     video.innerHTML = Array.from(new Set(sources))
+      .filter(Boolean)
       .map((src) => `<source src="${src}" type="video/mp4">`)
       .join("");
     video.load();
@@ -754,6 +761,8 @@ function bindIntroSplash() {
   watchButton?.addEventListener("click", () => {
     attemptPlay();
   });
+  splash.addEventListener("touchstart", attemptPlay, { once: true, passive: true });
+  splash.addEventListener("pointerdown", attemptPlay, { once: true });
   video.addEventListener("canplay", attemptPlay, { once: true });
   video.addEventListener("error", markNeedsTap);
   video.addEventListener("ended", hideSplash);
@@ -838,7 +847,9 @@ function bindInstallPrompt() {
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
+    navigator.serviceWorker.register("sw.js").then((registration) => {
+      registration.update().catch(() => {});
+    }).catch(() => {});
   });
 }
 
