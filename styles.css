@@ -231,6 +231,10 @@ textarea {
   font-weight: 800;
 }
 
+.brand-mark::before {
+  content: "ZJJ";
+}
+
 .brand strong,
 .brand small {
   display: block;
