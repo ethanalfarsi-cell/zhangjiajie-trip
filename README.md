@@ -1,0 +1,60 @@
+# Zhangjiajie Trip Map App Prototype
+
+这是一个张家界旅游引流 App 的静态原型，面向国际游客使用。
+
+## 打开方式
+
+直接双击 `index.html`，或在浏览器中打开：
+
+```text
+C:\Users\Administrator\Documents\AI短剧\index.html
+```
+
+## 当前功能
+
+- 支持中文、英文、韩文、日文、法文、德文、西班牙文、俄文、阿拉伯文切换。
+- 支持游客选择旅行天数、旅行风格和服务需求。
+- 支持点击地图点位或景点卡片，自由组合张家界路线。
+- 支持推荐路线：经典首游、亲子轻松、深度延伸。
+- 支持生成咨询信息，并引导游客联系 WhatsApp、微信、邮箱或服务团队。
+- 支持 PWA：网站上线到 HTTPS 后，游客可以把网站安装到手机桌面，作为轻量 App 使用。
+- 支持网站/App 同步：网站和 App 使用同一套文件，更新网站内容后，手机 App 会通过缓存刷新同步。
+
+## APP 与网站同步方案
+
+当前版本采用 PWA 方案：
+
+1. 网站端打开 `index.html`。
+2. 手机端访问同一个网址后，可以安装到桌面，显示为 App。
+3. `site-config.js` 作为统一配置文件，联系方式和同步提示在这里维护。
+4. `sw.js` 作为离线缓存和更新脚本，网站更新后会刷新 App 缓存。
+5. 后续如果接后台，网站和 App 都读取同一个 API，例如 `/api/routes`、`/api/spots`、`/api/leads`。
+
+这比先分别开发网站、iOS、Android 成本更低，也方便快速引流测试。
+
+## 后续开发建议
+
+1. 接入真实地图：高德地图、Google Maps 或 Mapbox。
+2. 接入后台：保存游客姓名、国家、人数、日期、路线和服务需求。
+3. 接入翻译系统：将景点介绍和路线说明扩展为专业多语言文案。
+4. 接入客服：WhatsApp、微信二维码、邮箱、电话、在线表单。
+5. 封装移动端：先做 PWA，再按需要封装 iOS/Android。
+
+## 需要替换的信息
+
+- `site-config.js` 中的 `service@example.com` 替换为你的真实邮箱。
+- `site-config.js` 中的 `whatsappNumber` 替换为你的 WhatsApp 号码，例如：
+
+```text
+8613800000000
+```
+
+- `index.html` 的联系区域可以加入微信二维码图片。
+
+## 上线注意
+
+PWA 安装和 Service Worker 同步需要 HTTPS 环境。也就是说：
+
+- 本地双击 `index.html` 可以预览页面。
+- 放到正式网站并启用 HTTPS 后，才会出现浏览器安装 App 的能力。
+- 更新 `site-config.js`、`app.js` 或 `styles.css` 后，重新发布到网站，用户再次打开 App 会同步更新。

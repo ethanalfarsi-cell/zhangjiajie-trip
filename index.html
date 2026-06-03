@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1f7a5a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="ZJ Trip Map" />
+    <title>Zhangjiajie Trip Map</title>
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">ZJ</span>
+        <div>
+          <strong data-i18n="brand">张家界自由行地图</strong>
+          <small data-i18n="tagline">选择路线，连接本地向导与服务</small>
+        </div>
+      </div>
+      <select id="languageSelect" class="language-select" aria-label="Language"></select>
+    </header>
+
+    <div class="sync-strip">
+      <span id="syncStatus">Website and app share the same live content.</span>
+      <button id="installAppBtn" class="install-btn" type="button">Install App</button>
+    </div>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="eyebrow">ZHANGJIAJIE ROUTE PLANNER</p>
+          <h1 data-i18n="headline">为全球游客规划张家界路线</h1>
+          <p data-i18n="intro">
+            从天门山、国家森林公园到大峡谷玻璃桥，游客可以按天数、兴趣和体力自由选择路线。
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#planner" data-i18n="start">开始选择路线</a>
+            <a class="secondary-action" href="#contact" data-i18n="contactGuide">联系导游服务</a>
+          </div>
+        </div>
+        <div class="map-panel" aria-label="Zhangjiajie route map">
+          <div class="map-bg">
+            <svg class="route-lines" viewBox="0 0 580 430" role="img" aria-label="Route lines">
+              <path d="M82 316 C145 240, 184 210, 256 220 C318 230, 376 180, 453 115" />
+              <path d="M156 126 C206 164, 222 210, 256 220 C286 266, 336 309, 437 334" />
+              <path d="M92 316 C165 334, 242 318, 324 282 C386 256, 420 218, 478 176" />
+            </svg>
+            <button class="map-pin pin-forest" data-spot="forest"></button>
+            <button class="map-pin pin-tianmen" data-spot="tianmen"></button>
+            <button class="map-pin pin-canyon" data-spot="canyon"></button>
+            <button class="map-pin pin-cave" data-spot="cave"></button>
+            <button class="map-pin pin-lake" data-spot="lake"></button>
+            <button class="map-pin pin-phoenix" data-spot="phoenix"></button>
+          </div>
+          <div id="mapHint" class="map-hint"></div>
+        </div>
+      </section>
+
+      <section id="planner" class="planner">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-i18n="plannerEyebrow">PLAN</p>
+            <h2 data-i18n="plannerTitle">选择你的旅行偏好</h2>
+          </div>
+          <button id="resetBtn" class="icon-text-btn" data-i18n="reset">重置</button>
+        </div>
+
+        <div class="controls-grid">
+          <div class="control-block">
+            <label data-i18n="days">旅行天数</label>
+            <div id="dayTabs" class="segmented"></div>
+          </div>
+          <div class="control-block">
+            <label data-i18n="style">旅行风格</label>
+            <div id="styleTabs" class="segmented"></div>
+          </div>
+          <div class="control-block">
+            <label data-i18n="services">可能需要的服务</label>
+            <div id="serviceChecks" class="checks"></div>
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <section class="spots-list">
+            <h3 data-i18n="spotsTitle">景点选择</h3>
+            <div id="spotCards" class="spot-cards"></div>
+          </section>
+
+          <aside class="route-summary">
+            <div class="summary-top">
+              <div>
+                <p class="eyebrow" data-i18n="yourRoute">YOUR ROUTE</p>
+                <h3 id="routeName"></h3>
+              </div>
+              <span id="routeBadge" class="route-badge"></span>
+            </div>
+            <ol id="routeSteps" class="route-steps"></ol>
+            <div class="summary-metrics">
+              <div>
+                <small data-i18n="duration">预计时长</small>
+                <strong id="durationValue"></strong>
+              </div>
+              <div>
+                <small data-i18n="difficulty">强度</small>
+                <strong id="difficultyValue"></strong>
+              </div>
+            </div>
+            <div class="tips-box">
+              <strong data-i18n="tips">旅行提示</strong>
+              <p id="routeTips"></p>
+            </div>
+            <a href="#contact" class="full-action" data-i18n="askService">我想咨询这条路线</a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="recommended">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-i18n="recommendedEyebrow">CURATED ROUTES</p>
+            <h2 data-i18n="recommendedTitle">推荐路线</h2>
+          </div>
+        </div>
+        <div id="routeCards" class="route-cards"></div>
+      </section>
+
+      <section id="contact" class="contact-section">
+        <div>
+          <p class="eyebrow" data-i18n="leadEyebrow">LOCAL SERVICE</p>
+          <h2 data-i18n="leadTitle">需要导游、包车、门票或酒店帮助？</h2>
+          <p data-i18n="leadText">
+            游客确认路线后，可以把需求发给 App 开发者或当地服务团队，获取人工定制建议。
+          </p>
+          <div class="contact-methods">
+            <a id="whatsappLink" href="#" target="_blank" rel="noreferrer">WhatsApp</a>
+            <a id="wechatLink" href="#">WeChat</a>
+            <a id="emailLink" href="#">Email</a>
+          </div>
+        </div>
+        <form id="leadForm" class="lead-form">
+          <label>
+            <span data-i18n="name">姓名</span>
+            <input name="name" required />
+          </label>
+          <label>
+            <span data-i18n="country">国家/地区</span>
+            <input name="country" />
+          </label>
+          <label>
+            <span data-i18n="travelDate">出行日期</span>
+            <input name="date" type="date" />
+          </label>
+          <label>
+            <span data-i18n="people">人数</span>
+            <input name="people" type="number" min="1" value="2" />
+          </label>
+          <label class="wide">
+            <span data-i18n="message">需求说明</span>
+            <textarea name="message" rows="4"></textarea>
+          </label>
+          <button type="submit" class="full-action" data-i18n="submit">发送咨询</button>
+          <p id="formResult" class="form-result"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="site-config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "Zhangjiajie Trip Map",
+  "short_name": "ZJ Trip Map",
+  "description": "Multilingual Zhangjiajie route planner for travelers.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f8f5",
+  "theme_color": "#1f7a5a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='72' fill='%231f7a5a'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-size='150' font-weight='800' fill='white'%3EZJ%3C/text%3E%3Cpath d='M122 360c78-82 143-100 196-86 39 10 64-6 92-47' fill='none' stroke='%23f0c76d' stroke-width='24' stroke-linecap='round'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,592 @@
+const languages = [
+  ["zh", "中文"],
+  ["en", "English"],
+  ["ko", "한국어"],
+  ["ja", "日本語"],
+  ["fr", "Français"],
+  ["de", "Deutsch"],
+  ["es", "Español"],
+  ["ru", "Русский"],
+  ["ar", "العربية"]
+];
+
+const t = {
+  zh: {
+    brand: "张家界自由行地图",
+    tagline: "选择路线，连接本地向导与服务",
+    eyebrow: "ZHANGJIAJIE ROUTE PLANNER",
+    headline: "为全球游客规划张家界路线",
+    intro: "从天门山、国家森林公园到大峡谷玻璃桥，游客可以按天数、兴趣和体力自由选择路线。",
+    start: "开始选择路线",
+    contactGuide: "联系导游服务",
+    plannerEyebrow: "PLAN",
+    plannerTitle: "选择你的旅行偏好",
+    reset: "重置",
+    days: "旅行天数",
+    style: "旅行风格",
+    services: "可能需要的服务",
+    spotsTitle: "景点选择",
+    yourRoute: "YOUR ROUTE",
+    duration: "预计时长",
+    difficulty: "强度",
+    tips: "旅行提示",
+    askService: "我想咨询这条路线",
+    recommendedEyebrow: "CURATED ROUTES",
+    recommendedTitle: "推荐路线",
+    leadEyebrow: "LOCAL SERVICE",
+    leadTitle: "需要导游、包车、门票或酒店帮助？",
+    leadText: "游客确认路线后，可以把需求发给 App 开发者或当地服务团队，获取人工定制建议。",
+    name: "姓名",
+    country: "国家/地区",
+    travelDate: "出行日期",
+    people: "人数",
+    message: "需求说明",
+    submit: "发送咨询",
+    sent: "已生成咨询信息，可复制给开发者或当地服务团队。",
+    mapHint: "点击地图上的圆点，快速选择张家界核心景点。"
+  },
+  en: {
+    brand: "Zhangjiajie Trip Map",
+    tagline: "Choose routes and connect with local services",
+    eyebrow: "ZHANGJIAJIE ROUTE PLANNER",
+    headline: "Plan Zhangjiajie routes for global travelers",
+    intro: "Select Tianmen Mountain, the National Forest Park, the Glass Bridge and more by days, interests and travel pace.",
+    start: "Start planning",
+    contactGuide: "Contact guide service",
+    plannerEyebrow: "PLAN",
+    plannerTitle: "Choose your travel preferences",
+    reset: "Reset",
+    days: "Trip length",
+    style: "Travel style",
+    services: "Optional services",
+    spotsTitle: "Attractions",
+    yourRoute: "YOUR ROUTE",
+    duration: "Duration",
+    difficulty: "Pace",
+    tips: "Travel tip",
+    askService: "Ask about this route",
+    recommendedEyebrow: "CURATED ROUTES",
+    recommendedTitle: "Recommended routes",
+    leadEyebrow: "LOCAL SERVICE",
+    leadTitle: "Need a guide, car, tickets or hotels?",
+    leadText: "After choosing a route, travelers can send the request to the app owner or local service team for a custom plan.",
+    name: "Name",
+    country: "Country/Region",
+    travelDate: "Travel date",
+    people: "Travelers",
+    message: "Request details",
+    submit: "Send request",
+    sent: "Request summary created. Share it with the app owner or local service team.",
+    mapHint: "Tap a map point to add major Zhangjiajie attractions."
+  },
+  ko: {
+    brand: "장자제 여행 지도",
+    tagline: "여행 코스를 선택하고 현지 서비스와 연결",
+    eyebrow: "ZHANGJIAJIE ROUTE PLANNER",
+    headline: "세계 여행자를 위한 장자제 코스 설계",
+    intro: "톈먼산, 국가삼림공원, 대협곡 유리다리 등을 일정, 관심사, 체력에 맞게 선택하세요.",
+    start: "코스 선택 시작",
+    contactGuide: "가이드 문의",
+    plannerEyebrow: "PLAN",
+    plannerTitle: "여행 선호도 선택",
+    reset: "초기화",
+    days: "여행 일수",
+    style: "여행 스타일",
+    services: "필요한 서비스",
+    spotsTitle: "관광지 선택",
+    yourRoute: "YOUR ROUTE",
+    duration: "예상 시간",
+    difficulty: "강도",
+    tips: "여행 팁",
+    askService: "이 코스 문의하기",
+    recommendedEyebrow: "CURATED ROUTES",
+    recommendedTitle: "추천 코스",
+    leadEyebrow: "LOCAL SERVICE",
+    leadTitle: "가이드, 차량, 티켓, 호텔이 필요하신가요?",
+    leadText: "코스를 확정한 후 앱 운영자 또는 현지 서비스 팀에 맞춤 요청을 보낼 수 있습니다.",
+    name: "이름",
+    country: "국가/지역",
+    travelDate: "여행 날짜",
+    people: "인원",
+    message: "요청 내용",
+    submit: "문의 보내기",
+    sent: "문의 요약이 생성되었습니다. 운영자 또는 현지 서비스 팀에 공유하세요.",
+    mapHint: "지도 포인트를 눌러 장자제 주요 관광지를 추가하세요."
+  }
+};
+
+const fallback = {
+  ja: {
+    brand: "張家界旅行マップ",
+    tagline: "ルート選択と現地サービス相談",
+    headline: "世界の旅行者向け張家界ルートプランナー",
+    intro: "日数、興味、体力に合わせて主要観光地を自由に選べます。",
+    start: "ルートを選ぶ",
+    contactGuide: "ガイドに相談"
+  },
+  fr: {
+    brand: "Carte de voyage Zhangjiajie",
+    tagline: "Choisir un itinéraire et contacter un service local",
+    headline: "Planificateur d'itinéraires pour Zhangjiajie",
+    intro: "Choisissez les sites selon la durée, vos intérêts et votre rythme.",
+    start: "Commencer",
+    contactGuide: "Contacter un guide"
+  },
+  de: {
+    brand: "Zhangjiajie Reisekarte",
+    tagline: "Route wählen und lokale Services kontaktieren",
+    headline: "Zhangjiajie-Routen für internationale Gäste",
+    intro: "Wählen Sie Sehenswürdigkeiten nach Tagen, Interesse und Tempo.",
+    start: "Route planen",
+    contactGuide: "Guide kontaktieren"
+  },
+  es: {
+    brand: "Mapa de viaje de Zhangjiajie",
+    tagline: "Elige rutas y conecta con servicios locales",
+    headline: "Planificador de rutas para Zhangjiajie",
+    intro: "Elige atracciones según días, intereses y ritmo de viaje.",
+    start: "Empezar",
+    contactGuide: "Contactar guía"
+  },
+  ru: {
+    brand: "Карта путешествия по Чжанцзяцзе",
+    tagline: "Выберите маршрут и свяжитесь с местным сервисом",
+    headline: "Маршруты по Чжанцзяцзе для туристов",
+    intro: "Выбирайте достопримечательности по дням, интересам и темпу.",
+    start: "Начать",
+    contactGuide: "Связаться с гидом"
+  },
+  ar: {
+    brand: "خريطة رحلة تشانغجياجيه",
+    tagline: "اختر المسار وتواصل مع الخدمات المحلية",
+    headline: "مخطط رحلات تشانغجياجيه للزوار",
+    intro: "اختر المعالم حسب عدد الأيام والاهتمامات وسرعة الرحلة.",
+    start: "ابدأ التخطيط",
+    contactGuide: "تواصل مع مرشد"
+  }
+};
+
+const base = t.zh;
+for (const [code] of languages) {
+  if (!t[code]) t[code] = { ...base, ...fallback[code] };
+}
+
+const copy = {
+  days: {
+    zh: ["1天", "2天", "3天", "4天+"],
+    en: ["1 day", "2 days", "3 days", "4+ days"],
+    ko: ["1일", "2일", "3일", "4일+"]
+  },
+  styles: {
+    zh: ["轻松", "摄影", "亲子", "深度"],
+    en: ["Easy", "Photo", "Family", "Deep"],
+    ko: ["여유", "사진", "가족", "깊이"]
+  },
+  services: {
+    zh: ["导游", "包车", "门票", "酒店", "翻译"],
+    en: ["Guide", "Car", "Tickets", "Hotel", "Translator"],
+    ko: ["가이드", "차량", "티켓", "호텔", "통역"]
+  }
+};
+
+const spots = [
+  {
+    id: "forest",
+    color: "linear-gradient(135deg,#2f8a5f,#9ecf83)",
+    hours: 7,
+    zh: ["张家界国家森林公园", "袁家界、金鞭溪、天子山，适合第一次来张家界的核心路线。"],
+    en: ["Zhangjiajie National Forest Park", "Yuanjiajie, Golden Whip Stream and Tianzi Mountain for first-time visitors."],
+    ko: ["장자제 국가삼림공원", "위안자제, 금편계, 천자산을 포함한 대표 코스입니다."]
+  },
+  {
+    id: "tianmen",
+    color: "linear-gradient(135deg,#2a79a8,#b8d9e8)",
+    hours: 6,
+    zh: ["天门山", "索道、天门洞、玻璃栈道，城市附近最有标志性的半日到一日路线。"],
+    en: ["Tianmen Mountain", "Cable car, Heaven's Gate and glass skywalk near the city."],
+    ko: ["톈먼산", "케이블카, 천문동, 유리잔도가 있는 대표 명소입니다."]
+  },
+  {
+    id: "canyon",
+    color: "linear-gradient(135deg,#d88732,#f2d7a4)",
+    hours: 4,
+    zh: ["大峡谷玻璃桥", "适合刺激体验、拍照和轻量半日游，可与黄龙洞组合。"],
+    en: ["Grand Canyon Glass Bridge", "A thrilling half-day option, easy to pair with Yellow Dragon Cave."],
+    ko: ["대협곡 유리다리", "스릴과 사진 촬영에 좋은 반나절 코스입니다."]
+  },
+  {
+    id: "cave",
+    color: "linear-gradient(135deg,#855f46,#d8bb95)",
+    hours: 3,
+    zh: ["黄龙洞", "溶洞景观稳定，不太受天气影响，适合亲子和轻松路线。"],
+    en: ["Yellow Dragon Cave", "A weather-friendly cave attraction for families and relaxed trips."],
+    ko: ["황룡동", "날씨 영향이 적은 동굴 관광지로 가족 여행에 좋습니다."]
+  },
+  {
+    id: "lake",
+    color: "linear-gradient(135deg,#297f9e,#acd7d4)",
+    hours: 3,
+    zh: ["宝峰湖", "湖景、游船和山水画面，适合轻松拍照。"],
+    en: ["Baofeng Lake", "Lake views, boat rides and relaxed photo stops."],
+    ko: ["보봉호", "호수, 유람선, 산수 풍경을 즐기는 여유 코스입니다."]
+  },
+  {
+    id: "phoenix",
+    color: "linear-gradient(135deg,#8f5a93,#e5b8d8)",
+    hours: 8,
+    zh: ["凤凰古城", "适合延伸游，夜景和古城氛围强，通常安排在张家界之后。"],
+    en: ["Fenghuang Ancient Town", "A strong add-on route for night views after Zhangjiajie."],
+    ko: ["펑황고성", "야경과 고성 분위기가 좋은 연장 여행지입니다."]
+  }
+];
+
+const routePresets = [
+  { id: "classic", spotIds: ["tianmen", "forest"], days: 2, level: 3 },
+  { id: "family", spotIds: ["tianmen", "cave", "lake"], days: 2, level: 2 },
+  { id: "deep", spotIds: ["forest", "tianmen", "canyon", "phoenix"], days: 4, level: 4 }
+];
+
+const appConfig = window.ZJ_APP_CONFIG || {};
+const contactConfig = appConfig.contact || {};
+
+const state = {
+  lang: detectLanguage(),
+  dayIndex: 1,
+  styleIndex: 0,
+  selected: new Set(["tianmen", "forest"]),
+  services: new Set(["guide"])
+};
+
+function detectLanguage() {
+  const urlLang = new URLSearchParams(location.search).get("language");
+  if (urlLang && urlLang.toLowerCase().startsWith("ko")) return "ko";
+  if (urlLang && urlLang.toLowerCase().startsWith("en")) return "en";
+  const browserLang = navigator.language.toLowerCase();
+  if (browserLang.startsWith("ko")) return "ko";
+  if (browserLang.startsWith("ja")) return "ja";
+  if (browserLang.startsWith("fr")) return "fr";
+  if (browserLang.startsWith("de")) return "de";
+  if (browserLang.startsWith("es")) return "es";
+  if (browserLang.startsWith("ru")) return "ru";
+  if (browserLang.startsWith("ar")) return "ar";
+  if (browserLang.startsWith("en")) return "en";
+  return "zh";
+}
+
+function tr(key) {
+  return t[state.lang][key] || t.en[key] || t.zh[key] || key;
+}
+
+function langCopy(group) {
+  return copy[group][state.lang] || copy[group].en || copy[group].zh;
+}
+
+function spotText(spot) {
+  return spot[state.lang] || spot.en || spot.zh;
+}
+
+function init() {
+  renderLanguageSelect();
+  renderControls();
+  renderSpots();
+  renderRoutes();
+  bindMap();
+  bindLeadForm();
+  bindInstallPrompt();
+  registerServiceWorker();
+  applyLanguage();
+  updateRoute();
+}
+
+function renderLanguageSelect() {
+  const select = document.querySelector("#languageSelect");
+  select.innerHTML = languages
+    .map(([code, label]) => `<option value="${code}">${label}</option>`)
+    .join("");
+  select.value = state.lang;
+  select.addEventListener("change", () => {
+    state.lang = select.value;
+    document.documentElement.lang = state.lang;
+    document.documentElement.dir = state.lang === "ar" ? "rtl" : "ltr";
+    applyLanguage();
+    renderControls();
+    renderSpots();
+    renderRoutes();
+    updateRoute();
+  });
+}
+
+function renderControls() {
+  const dayTabs = document.querySelector("#dayTabs");
+  const styleTabs = document.querySelector("#styleTabs");
+  dayTabs.innerHTML = langCopy("days")
+    .map((label, index) => `<button class="${index === state.dayIndex ? "active" : ""}" data-day="${index}">${label}</button>`)
+    .join("");
+  styleTabs.innerHTML = langCopy("styles")
+    .map((label, index) => `<button class="${index === state.styleIndex ? "active" : ""}" data-style="${index}">${label}</button>`)
+    .join("");
+
+  dayTabs.querySelectorAll("button").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.dayIndex = Number(button.dataset.day);
+      renderControls();
+      updateRoute();
+    });
+  });
+  styleTabs.querySelectorAll("button").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.styleIndex = Number(button.dataset.style);
+      renderControls();
+      updateRoute();
+    });
+  });
+
+  const services = document.querySelector("#serviceChecks");
+  const serviceKeys = ["guide", "car", "ticket", "hotel", "translator"];
+  services.innerHTML = langCopy("services")
+    .map((label, index) => {
+      const key = serviceKeys[index];
+      return `<label><input type="checkbox" value="${key}" ${state.services.has(key) ? "checked" : ""}> ${label}</label>`;
+    })
+    .join("");
+  services.querySelectorAll("input").forEach((input) => {
+    input.addEventListener("change", () => {
+      input.checked ? state.services.add(input.value) : state.services.delete(input.value);
+      updateRoute();
+    });
+  });
+
+  document.querySelector("#resetBtn").onclick = () => {
+    state.dayIndex = 1;
+    state.styleIndex = 0;
+    state.selected = new Set(["tianmen", "forest"]);
+    state.services = new Set(["guide"]);
+    renderControls();
+    renderSpots();
+    updateRoute();
+  };
+}
+
+function renderSpots() {
+  const wrap = document.querySelector("#spotCards");
+  wrap.innerHTML = spots
+    .map((spot) => {
+      const [name, desc] = spotText(spot);
+      return `
+        <article class="spot-card ${state.selected.has(spot.id) ? "active" : ""}" data-id="${spot.id}">
+          <div class="spot-thumb" style="--thumb:${spot.color}"></div>
+          <div>
+            <h4>${name}</h4>
+            <p>${desc}</p>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+  wrap.querySelectorAll(".spot-card").forEach((card) => {
+    card.addEventListener("click", () => toggleSpot(card.dataset.id));
+  });
+}
+
+function renderRoutes() {
+  const wrap = document.querySelector("#routeCards");
+  wrap.innerHTML = routePresets
+    .map((route) => {
+      const data = routeDetails(route);
+      return `
+        <article class="route-card">
+          <h3>${data.name}</h3>
+          <p>${data.summary}</p>
+          <p>${data.duration} · ${data.levelText}</p>
+          <button class="secondary-action" data-route="${route.id}">${tr("start")}</button>
+        </article>
+      `;
+    })
+    .join("");
+  wrap.querySelectorAll("button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const preset = routePresets.find((route) => route.id === button.dataset.route);
+      state.selected = new Set(preset.spotIds);
+      state.dayIndex = Math.min(3, Math.max(0, preset.days - 1));
+      renderControls();
+      renderSpots();
+      updateRoute();
+      document.querySelector("#planner").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+}
+
+function bindMap() {
+  document.querySelectorAll(".map-pin").forEach((pin) => {
+    pin.addEventListener("click", () => toggleSpot(pin.dataset.spot));
+  });
+}
+
+function toggleSpot(id) {
+  if (state.selected.has(id) && state.selected.size > 1) {
+    state.selected.delete(id);
+  } else {
+    state.selected.add(id);
+  }
+  renderSpots();
+  updateRoute();
+}
+
+function applyLanguage() {
+  document.querySelectorAll("[data-i18n]").forEach((node) => {
+    node.textContent = tr(node.dataset.i18n);
+  });
+  document.querySelector("#mapHint").textContent = tr("mapHint");
+  const syncStatus = document.querySelector("#syncStatus");
+  if (syncStatus) {
+    const syncText = appConfig.syncText || {};
+    syncStatus.textContent = syncText[state.lang] || syncText.en || "Website and app share the same content.";
+  }
+  const installBtn = document.querySelector("#installAppBtn");
+  if (installBtn) {
+    installBtn.textContent = state.lang === "zh" ? "安装App" : state.lang === "ko" ? "앱 설치" : "Install App";
+  }
+}
+
+function routeDetails(route) {
+  const names = route.spotIds.map((id) => spotText(spots.find((spot) => spot.id === id))[0]);
+  const isZh = state.lang === "zh";
+  const isKo = state.lang === "ko";
+  const joiner = isZh || isKo ? " + " : " + ";
+  const name = route.id === "classic"
+    ? (isZh ? "经典首游路线" : isKo ? "첫 방문 클래식 코스" : "Classic first-trip route")
+    : route.id === "family"
+      ? (isZh ? "亲子轻松路线" : isKo ? "가족 여유 코스" : "Easy family route")
+      : (isZh ? "深度延伸路线" : isKo ? "깊이 있는 연장 코스" : "Deep extension route");
+  return {
+    name,
+    summary: names.join(joiner),
+    duration: `${route.days}${isZh ? "天" : isKo ? "일" : route.days > 1 ? " days" : " day"}`,
+    levelText: levelText(route.level)
+  };
+}
+
+function updateRoute() {
+  const selectedSpots = spots.filter((spot) => state.selected.has(spot.id));
+  const names = selectedSpots.map((spot) => spotText(spot)[0]);
+  const totalHours = selectedSpots.reduce((sum, spot) => sum + spot.hours, 0);
+  const dayCount = state.dayIndex + 1;
+  const level = Math.min(5, Math.max(1, Math.round(totalHours / Math.max(1, dayCount) / 2)));
+  const routeName = makeCustomRouteName(names);
+
+  document.querySelector("#routeName").textContent = routeName;
+  document.querySelector("#routeBadge").textContent = langCopy("styles")[state.styleIndex];
+  document.querySelector("#durationValue").textContent = durationText(totalHours, dayCount);
+  document.querySelector("#difficultyValue").textContent = levelText(level);
+  document.querySelector("#routeTips").textContent = makeTips(level, selectedSpots);
+  document.querySelector("#routeSteps").innerHTML = names
+    .map((name, index) => `<li>${dayStep(index, name)}</li>`)
+    .join("");
+
+  const selectedServiceLabels = Array.from(state.services).join(", ");
+  const message = `${routeName}\n${names.join(" -> ")}\n${durationText(totalHours, dayCount)}\nServices: ${selectedServiceLabels}`;
+  document.querySelector("textarea[name='message']").value = message;
+  const whatsappNumber = contactConfig.whatsappNumber || "";
+  const whatsappBase = whatsappNumber ? `https://wa.me/${whatsappNumber}` : "https://wa.me/";
+  document.querySelector("#whatsappLink").href = `${whatsappBase}?text=${encodeURIComponent(message)}`;
+  document.querySelector("#emailLink").href = `mailto:${contactConfig.email || "service@example.com"}?subject=${encodeURIComponent(routeName)}&body=${encodeURIComponent(message)}`;
+  document.querySelector("#wechatLink").href = "#contact";
+  document.querySelector("#wechatLink").title = contactConfig.wechatText || "WeChat";
+}
+
+function makeCustomRouteName(names) {
+  if (state.lang === "zh") return `${names[0]}等${names.length}站定制路线`;
+  if (state.lang === "ko") return `${names[0]} 외 ${names.length}곳 맞춤 코스`;
+  return `${names.length}-stop custom route`;
+}
+
+function durationText(hours, days) {
+  if (state.lang === "zh") return `${days}天 / 约${hours}小时`;
+  if (state.lang === "ko") return `${days}일 / 약 ${hours}시간`;
+  return `${days} day${days > 1 ? "s" : ""} / about ${hours}h`;
+}
+
+function levelText(level) {
+  if (state.lang === "zh") return ["轻松", "适中", "较满", "高强度", "挑战"][level - 1];
+  if (state.lang === "ko") return ["여유", "보통", "빡빡함", "강함", "도전"][level - 1];
+  return ["Easy", "Moderate", "Full", "Intense", "Challenging"][level - 1];
+}
+
+function dayStep(index, name) {
+  const day = Math.min(index + 1, state.dayIndex + 1);
+  if (state.lang === "zh") return `第${day}天：${name}`;
+  if (state.lang === "ko") return `${day}일차: ${name}`;
+  return `Day ${day}: ${name}`;
+}
+
+function makeTips(level, selectedSpots) {
+  const hasForest = selectedSpots.some((spot) => spot.id === "forest");
+  if (state.lang === "zh") {
+    if (level >= 4) return "路线较满，建议安排包车和本地向导，提前确认门票与天气。";
+    if (hasForest) return "森林公园建议预留完整一天，穿防滑鞋并尽量早出发。";
+    return "这条路线节奏轻松，适合家庭、长辈和第一次到访游客。";
+  }
+  if (state.lang === "ko") {
+    if (level >= 4) return "일정이 빡빡하므로 차량과 현지 가이드 예약을 권장합니다.";
+    if (hasForest) return "국가삼림공원은 하루를 충분히 잡고 미끄럼 방지 신발을 준비하세요.";
+    return "가족과 첫 방문객에게 적합한 여유로운 코스입니다.";
+  }
+  if (level >= 4) return "This is a full route. A private car and local guide are recommended.";
+  if (hasForest) return "Reserve a full day for the Forest Park and start early with comfortable shoes.";
+  return "This route is relaxed and works well for families and first-time visitors.";
+}
+
+function bindLeadForm() {
+  document.querySelector("#leadForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const summary = [
+      form.get("name"),
+      form.get("country"),
+      form.get("date"),
+      `${form.get("people")} people`,
+      form.get("message")
+    ].filter(Boolean).join("\n");
+    navigator.clipboard?.writeText(summary).catch(() => {});
+    document.querySelector("#formResult").textContent = tr("sent");
+  });
+}
+
+let deferredInstallPrompt = null;
+
+function bindInstallPrompt() {
+  const button = document.querySelector("#installAppBtn");
+  if (!button) return;
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    button.classList.add("ready");
+  });
+
+  button.addEventListener("click", async () => {
+    if (!deferredInstallPrompt) {
+      const message = state.lang === "zh"
+        ? "上线到 HTTPS 网站后，手机浏览器会显示安装 App 入口。"
+        : state.lang === "ko"
+          ? "HTTPS 사이트에 배포하면 모바일 브라우저에서 앱 설치가 가능합니다."
+          : "After publishing on HTTPS, mobile browsers can install this as an app.";
+      alert(message);
+      return;
+    }
+
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    button.classList.remove("ready");
+  });
+}
+
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+
+init();
