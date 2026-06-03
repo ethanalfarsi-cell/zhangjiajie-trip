@@ -57,6 +57,9 @@ const t = {
     videoReady: "视频已准备好，点击播放。",
     videoPlaying: "正在播放。",
     videoError: "视频加载失败，请检查视频文件是否已上传到 assets 文件夹。",
+    momentsEyebrow: "TRAVELER MOMENTS",
+    momentsTitle: "与来自世界各地的游客一起探索张家界",
+    momentsText: "从峰林观景台到古城延伸游，路线可以按照你的语言、节奏和兴趣灵活定制。",
     uploadEyebrow: "TRAVELER VIDEOS",
     uploadTitle: "上传你的张家界旅行视频",
     uploadText: "游客可以提交自己的张家界旅行视频。所有视频需要后台审核通过后，才会展示到网站和 App。",
@@ -117,6 +120,9 @@ const t = {
     videoReady: "Video is ready. Tap to play.",
     videoPlaying: "Playing.",
     videoError: "Video failed to load. Please check that the file is uploaded to the assets folder.",
+    momentsEyebrow: "TRAVELER MOMENTS",
+    momentsTitle: "Explore Zhangjiajie with travelers from around the world",
+    momentsText: "From sandstone peak viewpoints to ancient-town extensions, routes can be tailored by language, pace and interests.",
     uploadEyebrow: "TRAVELER VIDEOS",
     uploadTitle: "Upload your Zhangjiajie travel video",
     uploadText: "Travelers can submit Zhangjiajie videos. Every video must be approved in the admin backend before it appears on the website and app.",
@@ -177,6 +183,9 @@ const t = {
     videoReady: "영상이 준비되었습니다. 탭하여 재생하세요.",
     videoPlaying: "재생 중입니다.",
     videoError: "영상 로딩에 실패했습니다. assets 폴더에 업로드되었는지 확인하세요.",
+    momentsEyebrow: "TRAVELER MOMENTS",
+    momentsTitle: "전 세계 여행자와 함께 장자제를 탐험하세요",
+    momentsText: "봉우리 전망대부터 고성 연장 코스까지, 언어와 속도, 관심사에 맞춰 코스를 조정할 수 있습니다.",
     uploadEyebrow: "TRAVELER VIDEOS",
     uploadTitle: "장자제 여행 영상을 업로드하세요",
     uploadText: "여행자는 장자제 여행 영상을 제출할 수 있습니다. 모든 영상은 관리자 심사 후 웹사이트와 앱에 표시됩니다.",
@@ -774,7 +783,8 @@ function bindIntroSplash() {
   };
 
   if (introConfig.poster) video.poster = introConfig.poster;
-  loadIntroVideoSource(video, introConfig).then(attemptPlay).catch(markNeedsTap);
+  loadIntroVideoSource(video, introConfig);
+  attemptPlay();
 
   const hideSplash = () => {
     splash.classList.add("hidden");
@@ -786,9 +796,8 @@ function bindIntroSplash() {
     attemptPlay();
   });
   unmuteButton?.addEventListener("click", toggleSound);
-  splash.addEventListener("touchstart", attemptPlay, { once: true, passive: true });
-  splash.addEventListener("pointerdown", attemptPlay, { once: true });
   video.addEventListener("canplay", attemptPlay, { once: true });
+  video.addEventListener("loadedmetadata", attemptPlay, { once: true });
   video.addEventListener("loadeddata", () => {
     if (status) status.textContent = tr("videoReady");
   });
@@ -805,7 +814,7 @@ function bindIntroSplash() {
   }, maxDuration * 1000);
 }
 
-async function loadIntroVideoSource(video, introConfig) {
+function loadIntroVideoSource(video, introConfig) {
   const connection = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
   const isMobileWidth = window.matchMedia("(max-width: 768px)").matches;
   const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
@@ -825,30 +834,8 @@ async function loadIntroVideoSource(video, introConfig) {
       : preferMobileVideo
         ? [mobileLandscapeSrc, mobileSrc, desktopSrc, "assets/zhangjiajie-intro.mp4.mp4"]
         : [desktopLandscapeSrc, desktopSrc, mobileLandscapeSrc, mobileSrc, "assets/zhangjiajie-intro.mp4.mp4"];
-
-  for (const src of Array.from(new Set(candidates.filter(Boolean)))) {
-    if (await videoAssetExists(src)) {
-      video.src = src;
-      video.load();
-      return src;
-    }
-  }
-
-  video.src = desktopSrc;
+  video.src = Array.from(new Set(candidates.filter(Boolean)))[0] || desktopSrc;
   video.load();
-  return desktopSrc;
-}
-
-async function videoAssetExists(src) {
-  try {
-    const response = await fetch(src, {
-      method: "HEAD",
-      cache: "no-store"
-    });
-    return response.ok;
-  } catch (error) {
-    return true;
-  }
 }
 
 function bindTravelerVideoForm() {

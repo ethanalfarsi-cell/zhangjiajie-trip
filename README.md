@@ -21,6 +21,7 @@ C:\Users\Administrator\Documents\AI短剧\index.html
 - 支持 PWA：网站上线到 HTTPS 后，游客可以把网站安装到手机桌面，作为轻量 App 使用。
 - 支持网站/App 同步：网站和 App 使用同一套文件，更新网站内容后，手机 App 会通过缓存刷新同步。
 - 支持视频化首页：打开网站先播放张家界开场视频，游客可以跳过，也可以看完后进入路线规划。
+- 支持国际游客体验图：展示全球游客在张家界的旅行氛围。
 - 支持游客提交旅行视频：游客上传的视频进入待审核队列，审核通过后再公开展示。
 
 ## APP 与网站同步方案
@@ -54,6 +55,7 @@ C:\Users\Administrator\Documents\AI短剧\index.html
 
 - `index.html` 的联系区域可以加入微信二维码图片。
 - 把首页开场视频放到 `assets/zhangjiajie-intro.mp4`。
+- 把游客体验图片放到 `assets/traveler-group-wide.png` 和 `assets/traveler-selfie-square.png`。
 - 建议准备三套首页视频：`assets/zhangjiajie-intro-desktop.mp4`、`assets/zhangjiajie-intro-mobile-portrait.mp4`、`assets/zhangjiajie-intro-mobile-landscape.mp4`。网站会根据电脑/手机和横屏/竖屏自动选择。
 
 ## 游客视频审核
