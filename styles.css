@@ -134,6 +134,12 @@ textarea {
   color: white;
 }
 
+.intro-actions .secondary-action.ready {
+  background: white;
+  border-color: white;
+  color: var(--ink);
+}
+
 .topbar {
   position: sticky;
   top: 0;

@@ -50,6 +50,7 @@ const t = {
     introVideoText: "云雾、峰林、天门与峡谷，将旅程的第一眼留给风景。",
     skipIntro: "跳过视频",
     watchIntro: "继续欣赏",
+    playIntro: "播放视频",
     uploadEyebrow: "TRAVELER VIDEOS",
     uploadTitle: "上传你的张家界旅行视频",
     uploadText: "游客可以提交自己的张家界旅行视频。所有视频需要后台审核通过后，才会展示到网站和 App。",
@@ -103,6 +104,7 @@ const t = {
     introVideoText: "Mist, sandstone peaks, Tianmen Mountain and canyon views open the journey.",
     skipIntro: "Skip video",
     watchIntro: "Keep watching",
+    playIntro: "Play video",
     uploadEyebrow: "TRAVELER VIDEOS",
     uploadTitle: "Upload your Zhangjiajie travel video",
     uploadText: "Travelers can submit Zhangjiajie videos. Every video must be approved in the admin backend before it appears on the website and app.",
@@ -156,6 +158,7 @@ const t = {
     introVideoText: "구름, 봉우리, 톈먼산과 협곡 풍경으로 여행의 첫 장면을 시작합니다.",
     skipIntro: "영상 건너뛰기",
     watchIntro: "계속 감상",
+    playIntro: "영상 재생",
     uploadEyebrow: "TRAVELER VIDEOS",
     uploadTitle: "장자제 여행 영상을 업로드하세요",
     uploadText: "여행자는 장자제 여행 영상을 제출할 수 있습니다. 모든 영상은 관리자 심사 후 웹사이트와 앱에 표시됩니다.",
@@ -712,6 +715,26 @@ function bindIntroSplash() {
   if (!splash || !video) return;
 
   const introConfig = appConfig.introVideo || {};
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+
+  const markNeedsTap = () => {
+    if (!watchButton) return;
+    watchButton.textContent = tr("playIntro");
+    watchButton.classList.add("ready");
+  };
+
+  const attemptPlay = () => {
+    video.muted = true;
+    return video.play().catch(() => {
+      markNeedsTap();
+    });
+  };
+
   if (introConfig.poster) video.poster = introConfig.poster;
   if (introConfig.src) {
     const sources = [introConfig.src, "assets/zhangjiajie-intro.mp4", "assets/zhangjiajie-intro.mp4.mp4"];
@@ -719,9 +742,7 @@ function bindIntroSplash() {
       .map((src) => `<source src="${src}" type="video/mp4">`)
       .join("");
     video.load();
-    video.play().catch(() => {
-      watchButton?.classList.add("ready");
-    });
+    attemptPlay();
   }
 
   const hideSplash = () => {
@@ -731,9 +752,10 @@ function bindIntroSplash() {
 
   skipButton?.addEventListener("click", hideSplash);
   watchButton?.addEventListener("click", () => {
-    video.muted = true;
-    video.play().catch(() => {});
+    attemptPlay();
   });
+  video.addEventListener("canplay", attemptPlay, { once: true });
+  video.addEventListener("error", markNeedsTap);
   video.addEventListener("ended", hideSplash);
 
   const maxDuration = Math.max(8, Number(introConfig.durationSeconds || 18));

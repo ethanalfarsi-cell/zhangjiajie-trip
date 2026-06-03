@@ -6,7 +6,6 @@ const APP_SHELL = [
   "./site-config.js",
   "./app.js",
   "./manifest.webmanifest",
-  "./assets/zhangjiajie-intro.mp4",
   "./assets/README.md"
 ];
 
