@@ -9,7 +9,7 @@ window.ZJ_APP_CONFIG = {
   introVideo: {
     src: "assets/zhangjiajie-intro.mp4",
     poster: "",
-    durationSeconds: 18
+    durationSeconds: 45
   },
   moderation: {
     enabled: true,

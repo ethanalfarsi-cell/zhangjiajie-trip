@@ -12,7 +12,10 @@
   </head>
   <body>
     <section id="introSplash" class="intro-splash" aria-label="Zhangjiajie opening video">
-      <video id="introVideo" class="intro-video" autoplay muted playsinline></video>
+      <video id="introVideo" class="intro-video" autoplay muted playsinline preload="auto">
+        <source src="assets/zhangjiajie-intro.mp4" type="video/mp4" />
+        <source src="assets/zhangjiajie-intro.mp4.mp4" type="video/mp4" />
+      </video>
       <div class="intro-fallback" aria-hidden="true"></div>
       <div class="intro-overlay">
         <p class="eyebrow" data-i18n="introVideoEyebrow">ZHANGJIAJIE CINEMATIC VIEW</p>

@@ -714,9 +714,14 @@ function bindIntroSplash() {
   const introConfig = appConfig.introVideo || {};
   if (introConfig.poster) video.poster = introConfig.poster;
   if (introConfig.src) {
-    video.innerHTML = `<source src="${introConfig.src}" type="video/mp4">`;
+    const sources = [introConfig.src, "assets/zhangjiajie-intro.mp4", "assets/zhangjiajie-intro.mp4.mp4"];
+    video.innerHTML = Array.from(new Set(sources))
+      .map((src) => `<source src="${src}" type="video/mp4">`)
+      .join("");
     video.load();
-    video.play().catch(() => {});
+    video.play().catch(() => {
+      watchButton?.classList.add("ready");
+    });
   }
 
   const hideSplash = () => {
@@ -725,7 +730,10 @@ function bindIntroSplash() {
   };
 
   skipButton?.addEventListener("click", hideSplash);
-  watchButton?.addEventListener("click", () => video.play().catch(() => {}));
+  watchButton?.addEventListener("click", () => {
+    video.muted = true;
+    video.play().catch(() => {});
+  });
   video.addEventListener("ended", hideSplash);
 
   const maxDuration = Math.max(8, Number(introConfig.durationSeconds || 18));
