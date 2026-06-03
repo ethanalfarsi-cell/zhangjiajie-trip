@@ -112,6 +112,19 @@ textarea {
   font-size: 12px;
 }
 
+.language-box {
+  display: grid;
+  gap: 5px;
+  justify-items: end;
+}
+
+.language-box small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+}
+
 .language-select {
   min-width: 156px;
   border: 1px solid var(--line);
@@ -296,6 +309,7 @@ h3 {
 .pin-cave { left: 72%; top: 27%; background: #b56f3a; }
 .pin-lake { left: 27%; top: 25%; background: #287a9b; }
 .pin-phoenix { left: 82%; top: 38%; background: #8c5b9d; }
+.pin-hongjiang { left: 70%; top: 86%; background: #9a6632; }
 
 .map-hint {
   position: absolute;
@@ -599,6 +613,14 @@ h3 {
 
   .language-select {
     width: 100%;
+  }
+
+  .language-box {
+    justify-items: stretch;
+  }
+
+  .language-box small {
+    text-align: left;
   }
 
   .sync-strip {

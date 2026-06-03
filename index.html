@@ -19,7 +19,10 @@
           <small data-i18n="tagline">选择路线，连接本地向导与服务</small>
         </div>
       </div>
-      <select id="languageSelect" class="language-select" aria-label="Language"></select>
+      <div class="language-box">
+        <small id="detectedLanguageText">Detected language: English</small>
+        <select id="languageSelect" class="language-select" aria-label="Language"></select>
+      </div>
     </header>
 
     <div class="sync-strip">
@@ -53,6 +56,7 @@
             <button class="map-pin pin-cave" data-spot="cave"></button>
             <button class="map-pin pin-lake" data-spot="lake"></button>
             <button class="map-pin pin-phoenix" data-spot="phoenix"></button>
+            <button class="map-pin pin-hongjiang" data-spot="hongjiang"></button>
           </div>
           <div id="mapHint" class="map-hint"></div>
         </div>

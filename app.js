@@ -43,7 +43,8 @@ const t = {
     message: "需求说明",
     submit: "发送咨询",
     sent: "已生成咨询信息，可复制给开发者或当地服务团队。",
-    mapHint: "点击地图上的圆点，快速选择张家界核心景点。"
+    mapHint: "点击地图上的圆点，快速选择张家界核心景点。",
+    detectedLanguage: "根据您的位置推荐语言："
   },
   en: {
     brand: "Zhangjiajie Trip Map",
@@ -77,7 +78,8 @@ const t = {
     message: "Request details",
     submit: "Send request",
     sent: "Request summary created. Share it with the app owner or local service team.",
-    mapHint: "Tap a map point to add major Zhangjiajie attractions."
+    mapHint: "Tap a map point to add major Zhangjiajie attractions.",
+    detectedLanguage: "Recommended by your location:"
   },
   ko: {
     brand: "장자제 여행 지도",
@@ -111,7 +113,8 @@ const t = {
     message: "요청 내용",
     submit: "문의 보내기",
     sent: "문의 요약이 생성되었습니다. 운영자 또는 현지 서비스 팀에 공유하세요.",
-    mapHint: "지도 포인트를 눌러 장자제 주요 관광지를 추가하세요."
+    mapHint: "지도 포인트를 눌러 장자제 주요 관광지를 추가하세요.",
+    detectedLanguage: "위치 기반 추천 언어:"
   }
 };
 
@@ -122,7 +125,8 @@ const fallback = {
     headline: "世界の旅行者向け張家界ルートプランナー",
     intro: "日数、興味、体力に合わせて主要観光地を自由に選べます。",
     start: "ルートを選ぶ",
-    contactGuide: "ガイドに相談"
+    contactGuide: "ガイドに相談",
+    detectedLanguage: "現在地に基づく推奨言語:"
   },
   fr: {
     brand: "Carte de voyage Zhangjiajie",
@@ -130,7 +134,8 @@ const fallback = {
     headline: "Planificateur d'itinéraires pour Zhangjiajie",
     intro: "Choisissez les sites selon la durée, vos intérêts et votre rythme.",
     start: "Commencer",
-    contactGuide: "Contacter un guide"
+    contactGuide: "Contacter un guide",
+    detectedLanguage: "Langue recommandée selon votre position :"
   },
   de: {
     brand: "Zhangjiajie Reisekarte",
@@ -138,7 +143,8 @@ const fallback = {
     headline: "Zhangjiajie-Routen für internationale Gäste",
     intro: "Wählen Sie Sehenswürdigkeiten nach Tagen, Interesse und Tempo.",
     start: "Route planen",
-    contactGuide: "Guide kontaktieren"
+    contactGuide: "Guide kontaktieren",
+    detectedLanguage: "Empfohlene Sprache nach Standort:"
   },
   es: {
     brand: "Mapa de viaje de Zhangjiajie",
@@ -146,7 +152,8 @@ const fallback = {
     headline: "Planificador de rutas para Zhangjiajie",
     intro: "Elige atracciones según días, intereses y ritmo de viaje.",
     start: "Empezar",
-    contactGuide: "Contactar guía"
+    contactGuide: "Contactar guía",
+    detectedLanguage: "Idioma recomendado por ubicación:"
   },
   ru: {
     brand: "Карта путешествия по Чжанцзяцзе",
@@ -154,7 +161,8 @@ const fallback = {
     headline: "Маршруты по Чжанцзяцзе для туристов",
     intro: "Выбирайте достопримечательности по дням, интересам и темпу.",
     start: "Начать",
-    contactGuide: "Связаться с гидом"
+    contactGuide: "Связаться с гидом",
+    detectedLanguage: "Рекомендуемый язык по местоположению:"
   },
   ar: {
     brand: "خريطة رحلة تشانغجياجيه",
@@ -162,7 +170,8 @@ const fallback = {
     headline: "مخطط رحلات تشانغجياجيه للزوار",
     intro: "اختر المعالم حسب عدد الأيام والاهتمامات وسرعة الرحلة.",
     start: "ابدأ التخطيط",
-    contactGuide: "تواصل مع مرشد"
+    contactGuide: "تواصل مع مرشد",
+    detectedLanguage: "اللغة المقترحة حسب موقعك:"
   }
 };
 
@@ -173,9 +182,9 @@ for (const [code] of languages) {
 
 const copy = {
   days: {
-    zh: ["1天", "2天", "3天", "4天+"],
-    en: ["1 day", "2 days", "3 days", "4+ days"],
-    ko: ["1일", "2일", "3일", "4일+"]
+    zh: ["1天", "2天", "3天", "5天+"],
+    en: ["1 day", "2 days", "3 days", "5+ days"],
+    ko: ["1일", "2일", "3일", "5일+"]
   },
   styles: {
     zh: ["轻松", "摄影", "亲子", "深度"],
@@ -237,20 +246,62 @@ const spots = [
     zh: ["凤凰古城", "适合延伸游，夜景和古城氛围强，通常安排在张家界之后。"],
     en: ["Fenghuang Ancient Town", "A strong add-on route for night views after Zhangjiajie."],
     ko: ["펑황고성", "야경과 고성 분위기가 좋은 연장 여행지입니다."]
+  },
+  {
+    id: "hongjiang",
+    color: "linear-gradient(135deg,#9a6632,#e0c09a)",
+    hours: 5,
+    zh: ["洪江古商城", "适合放在凤凰古城之后，感受明清商贸古城、会馆建筑和湘西历史人文。"],
+    en: ["Hongjiang Ancient Commercial Town", "A cultural extension after Fenghuang, known for Ming-Qing trade history, guild halls and old streets."],
+    ko: ["홍강고상성", "펑황고성 이후 연장 코스로 좋으며 명청 상업 역사, 회관 건축, 옛 거리를 느낄 수 있습니다."]
   }
 ];
 
 const routePresets = [
   { id: "classic", spotIds: ["tianmen", "forest"], days: 2, level: 3 },
   { id: "family", spotIds: ["tianmen", "cave", "lake"], days: 2, level: 2 },
-  { id: "deep", spotIds: ["forest", "tianmen", "canyon", "phoenix"], days: 4, level: 4 }
+  { id: "deep", spotIds: ["forest", "tianmen", "canyon", "phoenix", "hongjiang"], days: 5, level: 4 }
 ];
 
 const appConfig = window.ZJ_APP_CONFIG || {};
 const contactConfig = appConfig.contact || {};
+const languageLabels = Object.fromEntries(languages);
+const countryLanguageMap = {
+  CN: "zh",
+  HK: "zh",
+  MO: "zh",
+  TW: "zh",
+  SG: "zh",
+  KR: "ko",
+  JP: "ja",
+  FR: "fr",
+  BE: "fr",
+  CA: "fr",
+  DE: "de",
+  AT: "de",
+  CH: "de",
+  ES: "es",
+  MX: "es",
+  AR: "es",
+  CO: "es",
+  PE: "es",
+  CL: "es",
+  RU: "ru",
+  BY: "ru",
+  KZ: "ru",
+  AE: "ar",
+  SA: "ar",
+  EG: "ar",
+  QA: "ar",
+  KW: "ar",
+  JO: "ar",
+  MA: "ar"
+};
 
 const state = {
   lang: detectLanguage(),
+  detectedByIp: false,
+  userSelectedLanguage: false,
   dayIndex: 1,
   styleIndex: 0,
   selected: new Set(["tianmen", "forest"]),
@@ -259,18 +310,16 @@ const state = {
 
 function detectLanguage() {
   const urlLang = new URLSearchParams(location.search).get("language");
+  if (urlLang && urlLang.toLowerCase().startsWith("zh")) return "zh";
   if (urlLang && urlLang.toLowerCase().startsWith("ko")) return "ko";
   if (urlLang && urlLang.toLowerCase().startsWith("en")) return "en";
-  const browserLang = navigator.language.toLowerCase();
-  if (browserLang.startsWith("ko")) return "ko";
-  if (browserLang.startsWith("ja")) return "ja";
-  if (browserLang.startsWith("fr")) return "fr";
-  if (browserLang.startsWith("de")) return "de";
-  if (browserLang.startsWith("es")) return "es";
-  if (browserLang.startsWith("ru")) return "ru";
-  if (browserLang.startsWith("ar")) return "ar";
-  if (browserLang.startsWith("en")) return "en";
-  return "zh";
+  if (urlLang && urlLang.toLowerCase().startsWith("ja")) return "ja";
+  if (urlLang && urlLang.toLowerCase().startsWith("fr")) return "fr";
+  if (urlLang && urlLang.toLowerCase().startsWith("de")) return "de";
+  if (urlLang && urlLang.toLowerCase().startsWith("es")) return "es";
+  if (urlLang && urlLang.toLowerCase().startsWith("ru")) return "ru";
+  if (urlLang && urlLang.toLowerCase().startsWith("ar")) return "ar";
+  return "en";
 }
 
 function tr(key) {
@@ -286,6 +335,8 @@ function spotText(spot) {
 }
 
 function init() {
+  document.documentElement.lang = state.lang;
+  document.documentElement.dir = state.lang === "ar" ? "rtl" : "ltr";
   renderLanguageSelect();
   renderControls();
   renderSpots();
@@ -296,6 +347,7 @@ function init() {
   registerServiceWorker();
   applyLanguage();
   updateRoute();
+  detectLanguageByIp();
 }
 
 function renderLanguageSelect() {
@@ -306,6 +358,7 @@ function renderLanguageSelect() {
   select.value = state.lang;
   select.addEventListener("change", () => {
     state.lang = select.value;
+    state.userSelectedLanguage = true;
     document.documentElement.lang = state.lang;
     document.documentElement.dir = state.lang === "ar" ? "rtl" : "ltr";
     applyLanguage();
@@ -446,6 +499,49 @@ function applyLanguage() {
   if (installBtn) {
     installBtn.textContent = state.lang === "zh" ? "安装App" : state.lang === "ko" ? "앱 설치" : "Install App";
   }
+  updateDetectedLanguageText();
+}
+
+async function detectLanguageByIp() {
+  if (new URLSearchParams(location.search).get("language")) return;
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3500);
+    const response = await fetch("https://ipapi.co/json/", { signal: controller.signal });
+    clearTimeout(timeout);
+    if (!response.ok) return;
+
+    const data = await response.json();
+    const country = String(data.country_code || data.country || "").toUpperCase();
+    const recommendedLang = countryLanguageMap[country] || "en";
+    state.detectedByIp = true;
+
+    if (!state.userSelectedLanguage && recommendedLang !== state.lang) {
+      state.lang = recommendedLang;
+      document.documentElement.lang = state.lang;
+      document.documentElement.dir = state.lang === "ar" ? "rtl" : "ltr";
+      document.querySelector("#languageSelect").value = state.lang;
+      applyLanguage();
+      renderControls();
+      renderSpots();
+      renderRoutes();
+      updateRoute();
+    } else {
+      updateDetectedLanguageText(recommendedLang);
+    }
+  } catch (error) {
+    state.detectedByIp = false;
+    state.lang = state.userSelectedLanguage ? state.lang : "en";
+    updateDetectedLanguageText("en");
+  }
+}
+
+function updateDetectedLanguageText(recommendedLang = state.lang) {
+  const node = document.querySelector("#detectedLanguageText");
+  if (!node) return;
+  const label = languageLabels[recommendedLang] || "English";
+  node.textContent = `${tr("detectedLanguage")} ${label}`;
 }
 
 function routeDetails(route) {
