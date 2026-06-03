@@ -739,6 +739,7 @@ function bindIntroSplash() {
   const video = document.querySelector("#introVideo");
   const skipButton = document.querySelector("#skipIntroBtn");
   const watchButton = document.querySelector("#watchIntroBtn");
+  const heroPlayButton = document.querySelector("#heroPlayBtn");
   const unmuteButton = document.querySelector("#unmuteIntroBtn");
   const status = document.querySelector("#introVideoStatus");
   if (!splash || !video) return;
@@ -765,9 +766,11 @@ function bindIntroSplash() {
     return video.play().then(() => {
       splash.classList.add("playing");
       if (status) status.textContent = tr("videoPlaying");
+      return true;
     }).catch(() => {
       splash.classList.remove("playing");
       markNeedsTap();
+      return false;
     });
   };
 
@@ -783,8 +786,7 @@ function bindIntroSplash() {
   };
 
   if (introConfig.poster) video.poster = introConfig.poster;
-  loadIntroVideoSource(video, introConfig);
-  attemptPlay();
+  loadIntroVideoSource(video, introConfig).then(attemptPlay);
 
   const hideSplash = () => {
     splash.classList.add("hidden");
@@ -792,14 +794,18 @@ function bindIntroSplash() {
   };
 
   skipButton?.addEventListener("click", hideSplash);
+  heroPlayButton?.addEventListener("click", () => {
+    attemptPlay();
+  });
   watchButton?.addEventListener("click", () => {
     attemptPlay();
   });
   unmuteButton?.addEventListener("click", toggleSound);
-  video.addEventListener("canplay", attemptPlay, { once: true });
   video.addEventListener("loadedmetadata", attemptPlay, { once: true });
+  video.addEventListener("canplay", attemptPlay, { once: true });
   video.addEventListener("loadeddata", () => {
     if (status) status.textContent = tr("videoReady");
+    attemptPlay();
   });
   video.addEventListener("error", () => {
     splash.classList.remove("playing");
@@ -807,6 +813,12 @@ function bindIntroSplash() {
     markNeedsTap();
   });
   video.addEventListener("ended", hideSplash);
+  window.matchMedia("(orientation: portrait)").addEventListener?.("change", () => {
+    switchIntroVideoForDevice(video, introConfig, attemptPlay);
+  });
+  window.matchMedia("(max-width: 768px)").addEventListener?.("change", () => {
+    switchIntroVideoForDevice(video, introConfig, attemptPlay);
+  });
 
   const maxDuration = Math.max(8, Number(introConfig.durationSeconds || 18));
   window.setTimeout(() => {
@@ -814,7 +826,15 @@ function bindIntroSplash() {
   }, maxDuration * 1000);
 }
 
-function loadIntroVideoSource(video, introConfig) {
+async function loadIntroVideoSource(video, introConfig) {
+  const src = await chooseIntroVideoSource(introConfig);
+  if (video.dataset.currentSrc === src) return;
+  video.dataset.currentSrc = src;
+  video.src = src;
+  video.load();
+}
+
+async function chooseIntroVideoSource(introConfig) {
   const connection = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
   const isMobileWidth = window.matchMedia("(max-width: 768px)").matches;
   const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
@@ -834,8 +854,36 @@ function loadIntroVideoSource(video, introConfig) {
       : preferMobileVideo
         ? [mobileLandscapeSrc, mobileSrc, desktopSrc, "assets/zhangjiajie-intro.mp4.mp4"]
         : [desktopLandscapeSrc, desktopSrc, mobileLandscapeSrc, mobileSrc, "assets/zhangjiajie-intro.mp4.mp4"];
-  video.src = Array.from(new Set(candidates.filter(Boolean)))[0] || desktopSrc;
+  for (const src of Array.from(new Set(candidates.filter(Boolean)))) {
+    if (await videoAssetExists(src)) return src;
+  }
+  return desktopSrc;
+}
+
+async function switchIntroVideoForDevice(video, introConfig, afterSwitch) {
+  const nextSrc = await chooseIntroVideoSource(introConfig);
+  if (video.dataset.currentSrc === nextSrc) return;
+  const wasPlaying = !video.paused;
+  video.dataset.currentSrc = nextSrc;
+  video.src = nextSrc;
   video.load();
+  if (wasPlaying) afterSwitch();
+}
+
+async function videoAssetExists(src) {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 900);
+    const response = await fetch(src, {
+      method: "HEAD",
+      cache: "no-store",
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
 }
 
 function bindTravelerVideoForm() {

@@ -12,7 +12,7 @@
   </head>
   <body>
     <section id="introSplash" class="intro-splash" aria-label="Zhangjiajie opening video">
-      <video id="introVideo" class="intro-video" autoplay muted playsinline preload="auto">
+      <video id="introVideo" class="intro-video" autoplay muted playsinline preload="auto" poster="assets/zhangjiajie-intro-poster.png">
         <source src="assets/zhangjiajie-intro-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
         <source src="assets/zhangjiajie-intro.mp4" type="video/mp4" />
         <source src="assets/zhangjiajie-intro.mp4.mp4" type="video/mp4" />
@@ -22,6 +22,9 @@
         <p class="eyebrow" data-i18n="introVideoEyebrow">ZHANGJIAJIE CINEMATIC VIEW</p>
         <h1 data-i18n="introVideoTitle">先看见张家界，再选择你的路线</h1>
         <p data-i18n="introVideoText">云雾、峰林、天门与峡谷，将旅程的第一眼留给风景。</p>
+        <button id="heroPlayBtn" class="hero-play-btn" type="button" aria-label="Play video">
+          <span></span>
+        </button>
         <div class="intro-actions">
           <button id="skipIntroBtn" class="primary-action" type="button" data-i18n="skipIntro">跳过视频</button>
           <button id="watchIntroBtn" class="secondary-action" type="button" data-i18n="watchIntro">继续欣赏</button>

@@ -20,7 +20,7 @@ C:\Users\Administrator\Documents\AI短剧\index.html
 - 支持生成咨询信息，并引导游客联系 WhatsApp、微信、邮箱或服务团队。
 - 支持 PWA：网站上线到 HTTPS 后，游客可以把网站安装到手机桌面，作为轻量 App 使用。
 - 支持网站/App 同步：网站和 App 使用同一套文件，更新网站内容后，手机 App 会通过缓存刷新同步。
-- 支持视频化首页：打开网站先播放张家界开场视频，游客可以跳过，也可以看完后进入路线规划。
+- 支持视频化首页：打开网站优先静音自动播放开场视频；如果浏览器拦截自动播放，则显示视频海报图和播放按钮。
 - 支持国际游客体验图：展示全球游客在张家界的旅行氛围。
 - 支持游客提交旅行视频：游客上传的视频进入待审核队列，审核通过后再公开展示。
 
@@ -55,6 +55,7 @@ C:\Users\Administrator\Documents\AI短剧\index.html
 
 - `index.html` 的联系区域可以加入微信二维码图片。
 - 把首页开场视频放到 `assets/zhangjiajie-intro.mp4`。
+- 把首页视频第一帧或海报图放到 `assets/zhangjiajie-intro-poster.png`。
 - 把游客体验图片放到 `assets/traveler-group-wide.png` 和 `assets/traveler-selfie-square.png`。
 - 建议准备三套首页视频：`assets/zhangjiajie-intro-desktop.mp4`、`assets/zhangjiajie-intro-mobile-portrait.mp4`、`assets/zhangjiajie-intro-mobile-landscape.mp4`。网站会根据电脑/手机和横屏/竖屏自动选择。
 
@@ -99,4 +100,15 @@ PWA 安装和 Service Worker 同步需要 HTTPS 环境。也就是说：
 - 视频时长控制在 12-18 秒。
 - 导出时开启 H.264/AAC 和 faststart。
 
-浏览器通常不允许打开网页时自动播放带声音的视频，所以首页会自动播放静音画面，并提供“开启声音”按钮。
+浏览器通常不允许打开网页时自动播放带声音的视频。当前首页会优先尝试静音自动播放；如果手机或浏览器拦截，再退回“视频第一帧海报图 + 播放按钮”。
+
+如果已经上传三套视频，请在 `site-config.js` 里填写：
+
+```js
+introVideo: {
+  src: "assets/zhangjiajie-intro.mp4",
+  desktopLandscapeSrc: "assets/zhangjiajie-intro-desktop.mp4",
+  mobilePortraitSrc: "assets/zhangjiajie-intro-mobile-portrait.mp4",
+  mobileLandscapeSrc: "assets/zhangjiajie-intro-mobile-landscape.mp4"
+}
+```
