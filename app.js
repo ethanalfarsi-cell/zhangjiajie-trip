@@ -44,7 +44,25 @@ const t = {
     submit: "发送咨询",
     sent: "已生成咨询信息，可复制给开发者或当地服务团队。",
     mapHint: "点击地图上的圆点，快速选择张家界核心景点。",
-    detectedLanguage: "根据您的位置推荐语言："
+    detectedLanguage: "根据您的位置推荐语言：",
+    introVideoEyebrow: "ZHANGJIAJIE CINEMATIC VIEW",
+    introVideoTitle: "先看见张家界，再选择你的路线",
+    introVideoText: "云雾、峰林、天门与峡谷，将旅程的第一眼留给风景。",
+    skipIntro: "跳过视频",
+    watchIntro: "继续欣赏",
+    uploadEyebrow: "TRAVELER VIDEOS",
+    uploadTitle: "上传你的张家界旅行视频",
+    uploadText: "游客可以提交自己的张家界旅行视频。所有视频需要后台审核通过后，才会展示到网站和 App。",
+    reviewStep1: "1. 游客提交",
+    reviewStep2: "2. 后台审核",
+    reviewStep3: "3. 公开展示",
+    uploadName: "姓名",
+    uploadEmail: "邮箱/联系方式",
+    uploadVideo: "选择视频",
+    uploadCaption: "视频说明",
+    submitVideo: "提交审核",
+    videoPending: "视频已提交到待审核队列。正式上线后会进入后台审核系统。",
+    videoRequired: "请选择一个视频文件。"
   },
   en: {
     brand: "Zhangjiajie Trip Map",
@@ -79,7 +97,25 @@ const t = {
     submit: "Send request",
     sent: "Request summary created. Share it with the app owner or local service team.",
     mapHint: "Tap a map point to add major Zhangjiajie attractions.",
-    detectedLanguage: "Recommended by your location:"
+    detectedLanguage: "Recommended by your location:",
+    introVideoEyebrow: "ZHANGJIAJIE CINEMATIC VIEW",
+    introVideoTitle: "See Zhangjiajie first, then choose your route",
+    introVideoText: "Mist, sandstone peaks, Tianmen Mountain and canyon views open the journey.",
+    skipIntro: "Skip video",
+    watchIntro: "Keep watching",
+    uploadEyebrow: "TRAVELER VIDEOS",
+    uploadTitle: "Upload your Zhangjiajie travel video",
+    uploadText: "Travelers can submit Zhangjiajie videos. Every video must be approved in the admin backend before it appears on the website and app.",
+    reviewStep1: "1. Traveler submits",
+    reviewStep2: "2. Admin review",
+    reviewStep3: "3. Public display",
+    uploadName: "Name",
+    uploadEmail: "Email / Contact",
+    uploadVideo: "Choose video",
+    uploadCaption: "Video caption",
+    submitVideo: "Submit for review",
+    videoPending: "Video submitted to the review queue. After launch, it will enter the admin moderation system.",
+    videoRequired: "Please choose a video file."
   },
   ko: {
     brand: "장자제 여행 지도",
@@ -114,7 +150,25 @@ const t = {
     submit: "문의 보내기",
     sent: "문의 요약이 생성되었습니다. 운영자 또는 현지 서비스 팀에 공유하세요.",
     mapHint: "지도 포인트를 눌러 장자제 주요 관광지를 추가하세요.",
-    detectedLanguage: "위치 기반 추천 언어:"
+    detectedLanguage: "위치 기반 추천 언어:",
+    introVideoEyebrow: "ZHANGJIAJIE CINEMATIC VIEW",
+    introVideoTitle: "장자제를 먼저 감상하고 코스를 선택하세요",
+    introVideoText: "구름, 봉우리, 톈먼산과 협곡 풍경으로 여행의 첫 장면을 시작합니다.",
+    skipIntro: "영상 건너뛰기",
+    watchIntro: "계속 감상",
+    uploadEyebrow: "TRAVELER VIDEOS",
+    uploadTitle: "장자제 여행 영상을 업로드하세요",
+    uploadText: "여행자는 장자제 여행 영상을 제출할 수 있습니다. 모든 영상은 관리자 심사 후 웹사이트와 앱에 표시됩니다.",
+    reviewStep1: "1. 여행자 제출",
+    reviewStep2: "2. 관리자 심사",
+    reviewStep3: "3. 공개 표시",
+    uploadName: "이름",
+    uploadEmail: "이메일 / 연락처",
+    uploadVideo: "영상 선택",
+    uploadCaption: "영상 설명",
+    submitVideo: "심사 제출",
+    videoPending: "영상이 심사 대기열에 제출되었습니다. 정식 출시 후 관리자 심사 시스템으로 전송됩니다.",
+    videoRequired: "영상 파일을 선택하세요."
   }
 };
 
@@ -343,6 +397,8 @@ function init() {
   renderRoutes();
   bindMap();
   bindLeadForm();
+  bindIntroSplash();
+  bindTravelerVideoForm();
   bindInstallPrompt();
   registerServiceWorker();
   applyLanguage();
@@ -645,6 +701,77 @@ function bindLeadForm() {
     ].filter(Boolean).join("\n");
     navigator.clipboard?.writeText(summary).catch(() => {});
     document.querySelector("#formResult").textContent = tr("sent");
+  });
+}
+
+function bindIntroSplash() {
+  const splash = document.querySelector("#introSplash");
+  const video = document.querySelector("#introVideo");
+  const skipButton = document.querySelector("#skipIntroBtn");
+  const watchButton = document.querySelector("#watchIntroBtn");
+  if (!splash || !video) return;
+
+  const introConfig = appConfig.introVideo || {};
+  if (introConfig.poster) video.poster = introConfig.poster;
+  if (introConfig.src) {
+    video.innerHTML = `<source src="${introConfig.src}" type="video/mp4">`;
+    video.load();
+    video.play().catch(() => {});
+  }
+
+  const hideSplash = () => {
+    splash.classList.add("hidden");
+    video.pause();
+  };
+
+  skipButton?.addEventListener("click", hideSplash);
+  watchButton?.addEventListener("click", () => video.play().catch(() => {}));
+  video.addEventListener("ended", hideSplash);
+
+  const maxDuration = Math.max(8, Number(introConfig.durationSeconds || 18));
+  window.setTimeout(() => {
+    if (!splash.classList.contains("hidden")) hideSplash();
+  }, maxDuration * 1000);
+}
+
+function bindTravelerVideoForm() {
+  const form = document.querySelector("#travelerVideoForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const file = data.get("travelerVideo");
+    if (!file || !file.name) {
+      document.querySelector("#videoUploadResult").textContent = tr("videoRequired");
+      return;
+    }
+
+    const pendingItem = {
+      id: `video-${Date.now()}`,
+      status: "pending_review",
+      name: data.get("travelerName") || "",
+      contact: data.get("travelerContact") || "",
+      caption: data.get("travelerCaption") || "",
+      fileName: file.name,
+      fileSize: file.size,
+      submittedAt: new Date().toISOString()
+    };
+
+    const endpoint = appConfig.moderation?.endpoint || "";
+    if (endpoint) {
+      await fetch(endpoint, {
+        method: "POST",
+        body: data
+      }).catch(() => {});
+    } else {
+      const queue = JSON.parse(localStorage.getItem("zj_pending_videos") || "[]");
+      queue.unshift(pendingItem);
+      localStorage.setItem("zj_pending_videos", JSON.stringify(queue.slice(0, 20)));
+    }
+
+    form.reset();
+    document.querySelector("#videoUploadResult").textContent = tr("videoPending");
   });
 }
 

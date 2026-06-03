@@ -20,6 +20,8 @@ C:\Users\Administrator\Documents\AI短剧\index.html
 - 支持生成咨询信息，并引导游客联系 WhatsApp、微信、邮箱或服务团队。
 - 支持 PWA：网站上线到 HTTPS 后，游客可以把网站安装到手机桌面，作为轻量 App 使用。
 - 支持网站/App 同步：网站和 App 使用同一套文件，更新网站内容后，手机 App 会通过缓存刷新同步。
+- 支持视频化首页：打开网站先播放张家界开场视频，游客可以跳过，也可以看完后进入路线规划。
+- 支持游客提交旅行视频：游客上传的视频进入待审核队列，审核通过后再公开展示。
 
 ## APP 与网站同步方案
 
@@ -51,6 +53,21 @@ C:\Users\Administrator\Documents\AI短剧\index.html
 ```
 
 - `index.html` 的联系区域可以加入微信二维码图片。
+- 把首页开场视频放到 `assets/zhangjiajie-intro.mp4`。
+
+## 游客视频审核
+
+当前静态版本已经有游客视频提交入口，但不会直接公开展示，避免产生违规内容风险。
+
+正式上线建议这样接后台：
+
+1. 视频文件上传到 Vercel Blob、阿里云 OSS、腾讯云 COS 或 S3。
+2. 投稿信息保存到数据库，例如 Supabase、Neon、MongoDB 或 Airtable。
+3. 后台管理页显示待审核视频。
+4. 管理员点击通过后，视频才进入公开展示列表。
+5. 未通过的视频保留在后台，不展示给游客。
+
+`site-config.js` 里的 `moderation.endpoint` 是预留接口。后续有后台后，把接口地址填进去即可。
 
 ## 上线注意
 

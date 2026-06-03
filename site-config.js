@@ -6,6 +6,15 @@ window.ZJ_APP_CONFIG = {
     whatsappNumber: "",
     wechatText: "Add WeChat / scan QR code"
   },
+  introVideo: {
+    src: "assets/zhangjiajie-intro.mp4",
+    poster: "",
+    durationSeconds: 18
+  },
+  moderation: {
+    enabled: true,
+    endpoint: ""
+  },
   syncText: {
     zh: "网站与手机 App 使用同一套内容，更新网站后 App 会同步刷新。",
     en: "Website and app share the same content. App updates when the website is updated.",

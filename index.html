@@ -11,6 +11,20 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <section id="introSplash" class="intro-splash" aria-label="Zhangjiajie opening video">
+      <video id="introVideo" class="intro-video" autoplay muted playsinline></video>
+      <div class="intro-fallback" aria-hidden="true"></div>
+      <div class="intro-overlay">
+        <p class="eyebrow" data-i18n="introVideoEyebrow">ZHANGJIAJIE CINEMATIC VIEW</p>
+        <h1 data-i18n="introVideoTitle">先看见张家界，再选择你的路线</h1>
+        <p data-i18n="introVideoText">云雾、峰林、天门与峡谷，将旅程的第一眼留给风景。</p>
+        <div class="intro-actions">
+          <button id="skipIntroBtn" class="primary-action" type="button" data-i18n="skipIntro">跳过视频</button>
+          <button id="watchIntroBtn" class="secondary-action" type="button" data-i18n="watchIntro">继续欣赏</button>
+        </div>
+      </div>
+    </section>
+
     <header class="topbar">
       <div class="brand">
         <span class="brand-mark">ZJ</span>
@@ -128,6 +142,47 @@
           </div>
         </div>
         <div id="routeCards" class="route-cards"></div>
+      </section>
+
+      <section id="travelerVideos" class="video-upload-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow" data-i18n="uploadEyebrow">TRAVELER VIDEOS</p>
+            <h2 data-i18n="uploadTitle">上传你的张家界旅行视频</h2>
+          </div>
+        </div>
+        <div class="upload-grid">
+          <div class="upload-copy">
+            <p data-i18n="uploadText">
+              游客可以提交自己的张家界旅行视频。所有视频需要后台审核通过后，才会展示到网站和 App。
+            </p>
+            <div class="review-flow">
+              <span data-i18n="reviewStep1">1. 游客提交</span>
+              <span data-i18n="reviewStep2">2. 后台审核</span>
+              <span data-i18n="reviewStep3">3. 公开展示</span>
+            </div>
+          </div>
+          <form id="travelerVideoForm" class="lead-form video-form">
+            <label>
+              <span data-i18n="uploadName">姓名</span>
+              <input name="travelerName" required />
+            </label>
+            <label>
+              <span data-i18n="uploadEmail">邮箱/联系方式</span>
+              <input name="travelerContact" />
+            </label>
+            <label class="wide">
+              <span data-i18n="uploadVideo">选择视频</span>
+              <input name="travelerVideo" type="file" accept="video/*" required />
+            </label>
+            <label class="wide">
+              <span data-i18n="uploadCaption">视频说明</span>
+              <textarea name="travelerCaption" rows="3"></textarea>
+            </label>
+            <button type="submit" class="full-action" data-i18n="submitVideo">提交审核</button>
+            <p id="videoUploadResult" class="form-result"></p>
+          </form>
+        </div>
       </section>
 
       <section id="contact" class="contact-section">
