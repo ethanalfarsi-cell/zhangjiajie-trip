@@ -3,28 +3,23 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#1f7a5a" />
+    <meta name="theme-color" content="#163f35" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="ZJ Trip Map" />
-    <title>Zhangjiajie Trip Map</title>
+    <meta name="apple-mobile-web-app-title" content="Zhangjiajie Explorer" />
+    <title>Zhangjiajie Explorer</title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <section id="introSplash" class="intro-splash" aria-label="Zhangjiajie opening video">
       <video id="introVideo" class="intro-video" autoplay muted playsinline preload="auto" poster="assets/zhangjiajie-intro-poster.png">
-        <source src="assets/zhangjiajie-intro-mobile.mp4" type="video/mp4" media="(max-width: 768px)" />
         <source src="assets/zhangjiajie-intro.mp4" type="video/mp4" />
-        <source src="assets/zhangjiajie-intro.mp4.mp4" type="video/mp4" />
       </video>
-      <div class="intro-fallback" aria-hidden="true"></div>
       <div class="intro-overlay">
         <p class="eyebrow" data-i18n="introVideoEyebrow">ZHANGJIAJIE CINEMATIC VIEW</p>
         <h1 data-i18n="introVideoTitle">先看见张家界，再选择你的路线</h1>
         <p data-i18n="introVideoText">云雾、峰林、天门与峡谷，将旅程的第一眼留给风景。</p>
-        <button id="heroPlayBtn" class="hero-play-btn" type="button" aria-label="Play video">
-          <span></span>
-        </button>
+        <button id="heroPlayBtn" class="hero-play-btn" type="button" aria-label="Play video"><span></span></button>
         <div class="intro-actions">
           <button id="skipIntroBtn" class="primary-action" type="button" data-i18n="skipIntro">跳过视频</button>
           <button id="watchIntroBtn" class="secondary-action" type="button" data-i18n="watchIntro">继续欣赏</button>
@@ -35,7 +30,7 @@
     </section>
 
     <div class="utility-bar">
-      <div>
+      <div class="utility-contact">
         <span data-i18n="utilityPhone">Travel help: +86 744 000 0000</span>
         <span data-i18n="utilityEmail">service@example.com</span>
       </div>
@@ -47,16 +42,17 @@
     </div>
 
     <header class="topbar">
-      <div class="brand">
+      <a class="brand" href="#top" aria-label="Zhangjiajie Explorer">
         <span class="brand-mark notranslate" translate="no" aria-label="Zhangjiajie"></span>
-        <div>
+        <span>
           <strong data-i18n="brand">张家界自由行地图</strong>
           <small data-i18n="tagline">选择路线，连接本地向导与服务</small>
-        </div>
-      </div>
+        </span>
+      </a>
       <nav class="main-nav" aria-label="Main navigation">
+        <a href="#adventures">Adventures</a>
         <a href="#planner" data-i18n="navTours">Tours & Routes</a>
-        <a href="#travelerVideos" data-i18n="navMoments">Traveler Moments</a>
+        <a href="#services">Services</a>
         <a href="#contact" data-i18n="navContact">Contact</a>
       </nav>
       <div class="language-box">
@@ -70,50 +66,72 @@
       <button id="installAppBtn" class="install-btn" type="button">Install App</button>
     </div>
 
-    <main>
-      <section class="hero">
-        <div class="hero-copy">
+    <main id="top">
+      <section class="destination-hero">
+        <div class="hero-shade"></div>
+        <div class="hero-content">
           <p class="eyebrow" data-i18n="eyebrow">ZHANGJIAJIE TOURS & TRAVEL</p>
           <h1 data-i18n="headline">为全球游客规划张家界路线</h1>
-          <p data-i18n="intro">
-            从天门山、国家森林公园到大峡谷玻璃桥，游客可以按天数、兴趣和体力自由选择路线。
-          </p>
+          <p data-i18n="intro">从天门山、国家森林公园到大峡谷玻璃桥，游客可以按天数、兴趣和体力自由选择路线。</p>
           <div class="hero-actions">
             <a class="primary-action" href="#planner" data-i18n="start">开始选择路线</a>
             <a class="secondary-action" href="#contact" data-i18n="contactGuide">联系导游服务</a>
           </div>
         </div>
-        <div class="map-panel hero-search-panel" aria-label="Zhangjiajie route map">
-          <div class="hero-panel-title">
-            <p class="eyebrow" data-i18n="plannerEyebrow">PLAN</p>
-            <h3 data-i18n="heroPanelTitle">Choose your Zhangjiajie adventure</h3>
+        <aside class="hero-finder" aria-label="Tour finder">
+          <p class="eyebrow">TOUR FINDER</p>
+          <h2 data-i18n="heroPanelTitle">Choose your Zhangjiajie adventure</h2>
+          <div class="finder-row">
+            <label>Keyword</label>
+            <input placeholder="Forest Park, Tianmen, Glass Bridge" />
           </div>
-          <div class="map-bg">
-            <svg class="route-lines" viewBox="0 0 580 430" role="img" aria-label="Route lines">
-              <path d="M82 316 C145 240, 184 210, 256 220 C318 230, 376 180, 453 115" />
-              <path d="M156 126 C206 164, 222 210, 256 220 C286 266, 336 309, 437 334" />
-              <path d="M92 316 C165 334, 242 318, 324 282 C386 256, 420 218, 478 176" />
-            </svg>
-            <button class="map-pin pin-forest" data-spot="forest"></button>
-            <button class="map-pin pin-tianmen" data-spot="tianmen"></button>
-            <button class="map-pin pin-canyon" data-spot="canyon"></button>
-            <button class="map-pin pin-cave" data-spot="cave"></button>
-            <button class="map-pin pin-lake" data-spot="lake"></button>
-            <button class="map-pin pin-phoenix" data-spot="phoenix"></button>
-            <button class="map-pin pin-hongjiang" data-spot="hongjiang"></button>
+          <div class="finder-row">
+            <label>Category</label>
+            <select>
+              <option>Day Tours</option>
+              <option>Multi Day Tours</option>
+              <option>Tailor Made</option>
+            </select>
           </div>
-          <div id="mapHint" class="map-hint"></div>
-        </div>
+          <div class="finder-row">
+            <label>Starting Location</label>
+            <select>
+              <option>Zhangjiajie City</option>
+              <option>Wulingyuan</option>
+              <option>Fenghuang Ancient Town</option>
+            </select>
+          </div>
+          <a class="full-action" href="#planner">Explore Routes</a>
+        </aside>
       </section>
 
-      <section class="traveler-moments">
-        <div class="moments-media">
-          <img src="assets/traveler-group-wide.png" alt="International travelers enjoying Zhangjiajie mountain views" loading="lazy" />
+      <section id="adventures" class="adventure-types">
+        <div class="section-head center">
+          <p class="eyebrow">CHOOSE YOUR ACTIVITY</p>
+          <h2>Visiting Zhangjiajie? Ready for adventure?</h2>
+          <p>Choose your travel style and explore carefully selected routes, local services, and tailor-made planning.</p>
         </div>
-        <div class="moments-copy">
-          <p class="eyebrow" data-i18n="momentsEyebrow">TRAVELER MOMENTS</p>
-          <h2 data-i18n="momentsTitle">与来自世界各地的游客一起探索张家界</h2>
-          <p data-i18n="momentsText">从峰林观景台到古城延伸游，路线可以按照你的语言、节奏和兴趣灵活定制。</p>
+        <div class="adventure-grid">
+          <article>
+            <span>01</span>
+            <h3>Day Tours</h3>
+            <p>Explore Tianmen Mountain, Glass Bridge or Wulingyuan highlights in one focused day.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Meet on Location</h3>
+            <p>Start from the scenic area and meet a local guide where your route begins.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Multi Day Tours</h3>
+            <p>Combine Forest Park, Tianmen, Fenghuang and Hongjiang for a deeper journey.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Tailor Made</h3>
+            <p>Build a private route based on language, pace, family needs and photography goals.</p>
+          </article>
         </div>
       </section>
 
@@ -123,7 +141,7 @@
             <p class="eyebrow" data-i18n="plannerEyebrow">PLAN</p>
             <h2 data-i18n="plannerTitle">选择你的旅行偏好</h2>
           </div>
-          <button id="resetBtn" class="icon-text-btn" data-i18n="reset">重置</button>
+          <button id="resetBtn" class="icon-text-btn" type="button" data-i18n="reset">重置</button>
         </div>
 
         <div class="controls-grid">
@@ -141,10 +159,27 @@
           </div>
         </div>
 
-        <div class="content-grid">
-          <section class="spots-list">
-            <h3 data-i18n="spotsTitle">景点选择</h3>
-            <div id="spotCards" class="spot-cards"></div>
+        <div class="planner-layout">
+          <section class="map-panel" aria-label="Zhangjiajie route map">
+            <div class="hero-panel-title">
+              <p class="eyebrow" data-i18n="plannerEyebrow">PLAN</p>
+              <h3 data-i18n="heroPanelTitle">Choose your Zhangjiajie adventure</h3>
+            </div>
+            <div class="map-bg">
+              <svg class="route-lines" viewBox="0 0 580 430" role="img" aria-label="Route lines">
+                <path d="M82 316 C145 240, 184 210, 256 220 C318 230, 376 180, 453 115" />
+                <path d="M156 126 C206 164, 222 210, 256 220 C286 266, 336 309, 437 334" />
+                <path d="M92 316 C165 334, 242 318, 324 282 C386 256, 420 218, 478 176" />
+              </svg>
+              <button class="map-pin pin-forest" data-spot="forest"></button>
+              <button class="map-pin pin-tianmen" data-spot="tianmen"></button>
+              <button class="map-pin pin-canyon" data-spot="canyon"></button>
+              <button class="map-pin pin-cave" data-spot="cave"></button>
+              <button class="map-pin pin-lake" data-spot="lake"></button>
+              <button class="map-pin pin-phoenix" data-spot="phoenix"></button>
+              <button class="map-pin pin-hongjiang" data-spot="hongjiang"></button>
+            </div>
+            <div id="mapHint" class="map-hint"></div>
           </section>
 
           <aside class="route-summary">
@@ -175,6 +210,16 @@
         </div>
       </section>
 
+      <section class="spot-section">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">DESTINATIONS</p>
+            <h2 data-i18n="spotsTitle">景点选择</h2>
+          </div>
+        </div>
+        <div id="spotCards" class="spot-cards"></div>
+      </section>
+
       <section class="recommended">
         <div class="section-head">
           <div>
@@ -183,6 +228,31 @@
           </div>
         </div>
         <div id="routeCards" class="route-cards"></div>
+      </section>
+
+      <section id="services" class="services-band">
+        <div>
+          <p class="eyebrow">SERVICES & TRANSPORTATION</p>
+          <h2>Hassle-free help from route to arrival</h2>
+          <p>Guide, car, tickets, hotels and translation support can be arranged after travelers choose their route.</p>
+        </div>
+        <div class="service-list">
+          <span>Private Guide</span>
+          <span>Car Service</span>
+          <span>Ticket Support</span>
+          <span>Hotel Advice</span>
+        </div>
+      </section>
+
+      <section class="traveler-moments">
+        <div class="moments-media">
+          <img src="assets/traveler-group-wide.png" alt="International travelers enjoying Zhangjiajie mountain views" loading="lazy" />
+        </div>
+        <div class="moments-copy">
+          <p class="eyebrow" data-i18n="momentsEyebrow">TRAVELER MOMENTS</p>
+          <h2 data-i18n="momentsTitle">与来自世界各地的游客一起探索张家界</h2>
+          <p data-i18n="momentsText">从峰林观景台到古城延伸游，路线可以按照你的语言、节奏和兴趣灵活定制。</p>
+        </div>
       </section>
 
       <section id="travelerVideos" class="video-upload-section">
@@ -195,9 +265,7 @@
         <div class="upload-grid">
           <div class="upload-copy">
             <img class="upload-preview" src="assets/traveler-selfie-square.png" alt="Travelers sharing a Zhangjiajie trip moment" loading="lazy" />
-            <p data-i18n="uploadText">
-              游客可以提交自己的张家界旅行视频。所有视频需要后台审核通过后，才会展示到网站和 App。
-            </p>
+            <p data-i18n="uploadText">游客可以提交自己的张家界旅行视频。所有视频需要后台审核通过后，才会展示到网站和 App。</p>
             <div class="review-flow">
               <span data-i18n="reviewStep1">1. 游客提交</span>
               <span data-i18n="reviewStep2">2. 后台审核</span>
@@ -231,9 +299,7 @@
         <div>
           <p class="eyebrow" data-i18n="leadEyebrow">LOCAL SERVICE</p>
           <h2 data-i18n="leadTitle">需要导游、包车、门票或酒店帮助？</h2>
-          <p data-i18n="leadText">
-            游客确认路线后，可以把需求发给 App 开发者或当地服务团队，获取人工定制建议。
-          </p>
+          <p data-i18n="leadText">游客确认路线后，可以把需求发给 App 开发者或当地服务团队，获取人工定制建议。</p>
           <div class="contact-methods">
             <a id="whatsappLink" href="#" target="_blank" rel="noreferrer">WhatsApp</a>
             <a id="wechatLink" href="#">WeChat</a>
