@@ -34,6 +34,18 @@
       </div>
     </section>
 
+    <div class="utility-bar">
+      <div>
+        <span data-i18n="utilityPhone">Travel help: +86 744 000 0000</span>
+        <span data-i18n="utilityEmail">service@example.com</span>
+      </div>
+      <div class="utility-links">
+        <a href="#planner" data-i18n="navTours">Tours & Routes</a>
+        <a href="#travelerVideos" data-i18n="navMoments">Traveler Moments</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
+      </div>
+    </div>
+
     <header class="topbar">
       <div class="brand">
         <span class="brand-mark notranslate" translate="no" aria-label="Zhangjiajie"></span>
@@ -42,6 +54,11 @@
           <small data-i18n="tagline">选择路线，连接本地向导与服务</small>
         </div>
       </div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#planner" data-i18n="navTours">Tours & Routes</a>
+        <a href="#travelerVideos" data-i18n="navMoments">Traveler Moments</a>
+        <a href="#contact" data-i18n="navContact">Contact</a>
+      </nav>
       <div class="language-box">
         <small id="detectedLanguageText">Detected language: English</small>
         <select id="languageSelect" class="language-select" aria-label="Language"></select>
@@ -56,7 +73,7 @@
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow" data-i18n="eyebrow">ZHANGJIAJIE ROUTE PLANNER</p>
+          <p class="eyebrow" data-i18n="eyebrow">ZHANGJIAJIE TOURS & TRAVEL</p>
           <h1 data-i18n="headline">为全球游客规划张家界路线</h1>
           <p data-i18n="intro">
             从天门山、国家森林公园到大峡谷玻璃桥，游客可以按天数、兴趣和体力自由选择路线。
@@ -66,7 +83,11 @@
             <a class="secondary-action" href="#contact" data-i18n="contactGuide">联系导游服务</a>
           </div>
         </div>
-        <div class="map-panel" aria-label="Zhangjiajie route map">
+        <div class="map-panel hero-search-panel" aria-label="Zhangjiajie route map">
+          <div class="hero-panel-title">
+            <p class="eyebrow" data-i18n="plannerEyebrow">PLAN</p>
+            <h3 data-i18n="heroPanelTitle">Choose your Zhangjiajie adventure</h3>
+          </div>
           <div class="map-bg">
             <svg class="route-lines" viewBox="0 0 580 430" role="img" aria-label="Route lines">
               <path d="M82 316 C145 240, 184 210, 256 220 C318 230, 376 180, 453 115" />
